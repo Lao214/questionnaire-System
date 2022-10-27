@@ -15,6 +15,12 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import 'k-form-design/packages/utils/useComponents'
+import KFormDesign from 'k-form-design/packages/use.js'
+import 'k-form-design/lib/k-form-design.css'
+
+Vue.use(KFormDesign)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
