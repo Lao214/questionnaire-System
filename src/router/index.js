@@ -71,7 +71,13 @@ export const constantRoutes = [
         name: 'DesignBuild',
         component: () => import('@/views/design/build'),
         meta: { title: '构建', icon: 'form' }
-      }
+      },
+      {
+        path: 'list',
+        name: 'DesignList',
+        component: () => import('@/views/design/list'),
+        meta: { title: '列表', icon: 'table' }
+      },
     ]
   },
 
