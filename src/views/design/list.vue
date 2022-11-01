@@ -3,20 +3,20 @@
 <el-row style="padding-top:20px">
   <el-col :span="5" style="margin-left:70px;">
     <div class="grid-content bg-purple">
-        <el-radio-group v-model="radio1">
-        <el-radio-button label="全部"></el-radio-button>
-        <el-radio-button label="已发布"></el-radio-button>
-        <el-radio-button label="未发布"></el-radio-button>
+        <el-radio-group v-model="formQuery.status">
+        <el-radio-button label="">全部</el-radio-button>
+        <el-radio-button label="1">已发布</el-radio-button>
+        <el-radio-button label="0">未发布</el-radio-button>
        </el-radio-group>
     </div>
   </el-col>
 
   <el-col :span="5">
     <div class="grid-content bg-purple-light">
-        <el-radio-group v-model="radio2">
-        <el-radio-button label="全部"></el-radio-button>
-        <el-radio-button label="有反馈"></el-radio-button>
-        <el-radio-button label="无反馈"></el-radio-button>
+        <el-radio-group v-model="formQuery.type">
+        <el-radio-button label="">全部</el-radio-button>
+        <el-radio-button label="1">有反馈</el-radio-button>
+        <el-radio-button label="0">无反馈</el-radio-button>
       </el-radio-group>
     </div>
   </el-col>
@@ -24,12 +24,7 @@
   <el-col :span="7">
     <div class="grid-content bg-purple">
         <div>
-        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
-        <el-select v-model="select" slot="prepend" placeholder="请选择">
-          <el-option label="餐厅名" value="1"></el-option>
-          <el-option label="订单号" value="2"></el-option>
-          <el-option label="用户电话" value="3"></el-option>
-        </el-select>
+        <el-input placeholder="请输入问卷名称进行搜索" v-model="formQuery.name" class="input-with-select">
         <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
         </div>
@@ -38,7 +33,9 @@
 
     <el-col :span="4" style="padding-left:47px">
         <div class="grid-content bg-purple">
+          <router-link :to="'/design'">
             <el-button type="success">+  创建表单</el-button>
+          </router-link>
         </div>
     </el-col>
 </el-row>
@@ -46,71 +43,78 @@
     <div style="margin-left: 70px;margin-top: 20px;">
     </div>
     <div class="container">
-        <div v-for="(item,index) in formList" :key="index">
+        <div v-for="(item,index) in list" :key="index">
+          <router-link :to="'/edit/'+item.id">
             <div class="card">
-                <div class="imgBx">
-                    <img src="../../assets/design.png" alt="">
-                </div>
-                <div class="contentBx">
-                    <h2>{{ item.title }}</h2>
-                    <p>{{ item.description }}</p>
-                    <a href="#"><span>Read More</span></a>
-                </div>
+              <div class="imgBx">
+                <img src="../../assets/design.png" alt="">
+              </div>
+              <div class="contentBx">
+                <h2>{{ item.name }}</h2>
+                <p>欢迎填写</p>
+                <a href="#"><span>Read More</span></a>
+              </div>
             </div>
+          </router-link>
         </div>
     </div>
+
+    <el-pagination :current-page="page" :page-size="limit" :total="total" style="padding:30px 0; text-align:center;" layout="total,prev,pager,next,jumper" @current-change="getList"/>
   </div>
 </template>
 
 <script>
+ import formApi from '@/api/form/form'
+
 export default {
   data() {
     return {
-      formList: [
-        {
-          'title': '恒毅力',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '逆商',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '同理心',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '组织文化',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '情绪商数',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '自我同理心',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '别搞乱七八糟的',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        },
-        {
-          'title': '测试',
-          'description': '任何时候，无论你面临着生命的何等困惑'
-        }
-      ],
-      radio1: '全部',
-      radio2: '全部',
-      input1: '',
-      input2: '',
-      input3: '',
-      select: ''
+      page:1,
+      limit:10,
+      formQuery:{
+        status: '',
+        type: '',
+        name: '',
+      },
+      total:0,
+      list:null
     }
   },
-  mounted() {
+  created() {
+    this.getList()
   },
   methods: {
+     //不传默认page为1
+     getList(page=1) {
+      this.page=page
+      formApi.getFormList(this.page,this.limit,this.formQuery).then(res=>{
+        //请求成功
+        console.log(res.data.rows);
+        this.list=res.data.rows;
+        this.total=res.data.total;
+      }).catch(error=>{
+        console.log(error);
+      })
+    },
+    resetData() {
+      this.formQuery={}
+    },
+    removeById(id) {
+        this.$confirm('此操作将永久删除讲师记录, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+        }).then(() => {
+          formApi.deleteTeacherById(id).then(res=>{
+            this.$message({
+            type: 'success',
+            message: '删除成功!'
+        });
+            this.getList()
+            })
+        })//点击取消，执行catch方法
+    }
   }
 }
 </script>

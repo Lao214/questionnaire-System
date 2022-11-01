@@ -77,8 +77,23 @@ export default {
             hideRequiredMark: false,
             customStyle: ''
           }
-        }
+        },
+        formId: ''
       }
+    },
+    created() {
+      this.formId = this.$route.params.id
+      this.getInfo(this.formId)
+    },
+    methods: {
+      getInfo(id) {
+        formApi.getFormItemById(id).then(res=>{
+          this.jsonData = JSON.parse(res.data.formItem.item)
+          // console.log(this.jsonData)
+          this.importData()
+        })
+      },
     }
 }
 </script>
+

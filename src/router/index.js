@@ -13,6 +13,26 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  {
+    path: '/build',
+    component: () => import('@/views/design/build'),
+    hidden: true
+  },
+  {
+    path: '/design',
+    component: () => import('@/views/design/index'),
+    hidden: true
+  },
+  {
+    path: '/publish',
+    component: () => import('@/views/publish/index'),
+    hidden: true
+  },
+  {
+    path: '/edit/:id',
+    component: () => import('@/views/design/index'),
+    hidden: true
+  },
 
   {
     path: '/404',
@@ -55,23 +75,11 @@ export const constantRoutes = [
   },
 
   {
-    path: '/design',
+    path: '/forms',
     component: Layout,
     name: '表单',
     meta: { title: '表单', icon: 'form' },
     children: [
-      {
-        path: 'design',
-        name: 'Design',
-        component: () => import('@/views/design/index'),
-        meta: { title: '表单', icon: 'form' }
-      },
-      {
-        path: 'build',
-        name: 'DesignBuild',
-        component: () => import('@/views/design/build'),
-        meta: { title: '构建', icon: 'form' }
-      },
       {
         path: 'list',
         name: 'DesignList',
