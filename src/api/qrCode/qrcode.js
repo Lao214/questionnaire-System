@@ -6,8 +6,8 @@ export default{
     getQrCode(id) {
         return request({
             url: '/webApi/form/qrCode/'+id,
-            method: 'get',
+            method: 'get'
         })
-    },
+    }
  
 }

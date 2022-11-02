@@ -21,7 +21,7 @@
     </el-col>
     <el-col :span="22">
       <div class="grid-content bg-purple-light">
-        <k-form-design ref="kfd" title="" @save="saveOrUpdate"  />
+        <k-form-design showToolbarsText ref="kfd" title="" @save="saveOrUpdate"  />
       </div>
     </el-col>
   </div>
@@ -30,6 +30,7 @@
 <script>
 import formApi from '@/api/form/form'
 import qrCodeApi from '@/api/qrCode/qrcode'
+import { nodeSchema } from 'k-form-design'
 
 export default {
   data() {
@@ -47,7 +48,7 @@ export default {
 				    "noFormItem": true,
 				    "color": "rgba(0, 0, 0, 0.9)",
 				    "fontFamily": "",
-				    "fontSize": "24pt"
+				    "fontSize": "18pt"
 			    },
 			    "key": "text_1666947059803"
 		    },
