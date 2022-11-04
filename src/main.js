@@ -19,46 +19,44 @@ import { nodeSchema } from 'k-form-design'
 import 'k-form-design/packages/utils/useComponents'
 import KFormDesign from 'k-form-design/packages/use.js'
 import 'k-form-design/lib/k-form-design.css'
-import  WEditor  from  './components/editor/index.vue'
+import  WEditor  from  './components/editor/index'
+import formatDate from '@/utils/formatDate.js'
+Vue.prototype.$formatDate = formatDate
 
 Vue.use(KFormDesign)
 
-
-
-const Cmp = {
-  label: "cmp",
-  render: function(h) {
-  return h("div", "我是自定义组件");
-   }
-}
-
 // 添加组件
 nodeSchema.addSchemas([
-{
-type: "demo", // 表单类型
-label: "自定义组件", // 标题文字
-icon: "icon-gallery",
-component: WEditor,
-options: {
-  defaultValue: null,
-  width: "100%",
-  showLabel: true
-},
-model: "",
-key: "",
-rules: [
-  {
-    required: false,
-    message: "必填项"
-  }
-]
-}
+// {
+// type: "editorWang", // 表单类型
+// label: "编辑器", // 标题文字
+// icon: "icon-gallery",
+// component: WEditor,
+// options: {
+//   "height": 300,
+//   "placeholder": "请输入",
+//   "defaultValue": "",
+//   "chinesization": true,
+//   "hidden": false,
+//   "disabled": false,
+//   "showLabel": false,
+//   "width": "100%"
+// },
+// model: "",
+// key: "",
+// rules: [
+//   {
+//     required: false,
+//     message: "必填项"
+//   }
+// ]
+// }
 ])
 
 // 添加分组
 nodeSchema.addSchemaGroup({
 title: "自定义组件",
-list: ["demo"]
+list: []
 })
 
 /**

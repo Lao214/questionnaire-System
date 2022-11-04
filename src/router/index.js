@@ -19,6 +19,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/k',
+    component: () => import('@/views/Kdesign/k'),
+    hidden: true
+  },
+  {
     path: '/design',
     component: () => import('@/views/design/index'),
     hidden: true

@@ -104,7 +104,7 @@ import formApi from '@/api/form/form'
 </script>
 
 <style scoped>
- .el-icon-back:hover{
+.el-icon-back:hover{
     color: #fff;
     cursor:pointer;
   }
@@ -128,33 +128,32 @@ import formApi from '@/api/form/form'
   }
   .body ul li a{
     position: relative;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #051919;
     text-decoration: none;
-    padding: 1rem 2rem 5rem 0rem;
+    padding: 1rem 1rem 4rem 0rem;
     display: inline-block;
   }
 
   .body ul li a:hover{
     position: relative;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #13c2c2;
     text-decoration: none;
-    padding: 1rem 2rem 5rem 0rem;
+    padding: 1rem 1rem 4rem 0rem;
     display: inline-block;
   }
 
   #marker{
     position: absolute;
-    right: -14%;
+    right: -7%;
     top: 0;
-    height: 3.2rem;
+    height: 2.7rem;
     width: 0.3rem;
     background: #13c2c2;
     transition: 0.5s;
-    margin-top: 1.1rem;
+    margin-top: 0.7rem;
   }
-
   /* 按钮风格重定义 */
  .el-button--goon {
   color: #949494;

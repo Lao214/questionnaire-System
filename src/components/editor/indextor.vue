@@ -6,7 +6,7 @@
       </div>
       <div  style="border: 1px solid #ccc; margin-top: 10px">
         <!-- 工具栏 -->
-        <Toolbar style="border-bottom: 1px solid #ccc"  :editor="editor"  :defaultConfig="toolbarConfig"/>
+        <Toolbar v-show="show" style="border-bottom: 1px solid #ccc"  :editor="editor"  :defaultConfig="toolbarConfig"/>
         <!-- 编辑器 -->
         <Editor
           style="height: 400px; overflow-y: hidden"
@@ -14,6 +14,8 @@
           v-model="html"
           @onChange="onChange"
           @onCreated="onCreated"
+          @onBlur="onBlur"
+          @onFocus="onFocus"
         />
       </div>
       <!-- <div style="margin-top: 10px">
@@ -25,9 +27,9 @@
       </div> -->
       <!-- <div v-html="html" @click="show()"></div> -->
         
-      <div style="padding:7px;text-align: center;">
+      <!-- <div style="padding:7px;text-align: center;">
         <el-button type="primary"  @click="callBack"  >确 定</el-button>
-      </div>
+      </div> -->
     </div>
   </template>
   
@@ -77,22 +79,19 @@
         if (editor == null) return
         console.log(editor.getHtml()); // 执行 editor API
       },
-      // onFocus(editor) {
-      //   this.show = editor.isFocused()
-      //   console.log(editor.isFocused())
-      // },
-      // onBlur(editor) {
-      //   this.show = editor.isFocused()
-      //   console.log(editor.isFocused())
-      // },
-      callBack() {
-        this.$emit('callBack',this.show,this.html)
+      onFocus(editor) {
+        this.show = editor.isFocused()
+        console.log(editor.isFocused())
+      },
+      onBlur(editor) {
+        this.show = editor.isFocused()
+        console.log(editor.isFocused())
       }
     },
     mounted() {
       setTimeout(() => {
         this.html = this.resultTextParent
-      }, 700);
+      }, 500);
     },
     beforeDestroy() {
       const editor = this.editor
