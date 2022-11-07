@@ -19,7 +19,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/k',
+    path: '/kndex',
     component: () => import('@/views/Kdesign/k'),
     hidden: true
   },

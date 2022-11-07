@@ -1,22 +1,26 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="2">
-        <div class="grid-content bg-purple-darkOne" />
+      <el-col :span="1">
+        <navigationBar />
       </el-col>
-      <el-col :span="3">
+      <el-col :span="4">
         <div class="grid-content bg-purple-darkTwo">
-          <div style="padding:7px">
+          <div style="padding:7px 2px 9px 5rem">
             <el-button style="margin:7px;padding: 11px;" @click="addRadio('radioGroup','单选框', '', '', false, JSON.parse(JSON.stringify(defaultRadioOp)))">单选框组</el-button>
             <el-button style="margin:7px;padding: 11px;" @click="addSlider('slider','滑动条',50,'',false,100,0,1)">滑动输入</el-button>
             <el-button style="margin:7px;padding: 11px;" @click="add('imageShow','图片展示','https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg','',false)">图片展示</el-button>
             <el-button style="margin:7px;padding: 11px;" @click="add('divider','','','',false)">el分割线</el-button>
+            <el-button style="margin:7px;padding: 11px;" @click="add('myInput','输入框','','',false)">el输入框</el-button>
           </div>
         </div>
       </el-col>
-      <el-col :span="15">
+      <el-col :span="16">
         <div class="grid-content bg-purple-darks">
-          <div style="width:100%;background-color: blanchedalmond;height: 47px;"><el-button @click="saveData">保存</el-button></div>
+          <div style="width:100%;background-color: #fff;height: 47px;display:flex;justify-content:end;">
+            <!-- <el-button @click="returnForm">返回</el-button> -->
+            <el-button style="margin:2px 11px 2px 2px;" @click="saveData">保存</el-button>
+          </div>
           <div class="outer">
             <div class="inter">
               <el-row style="padding:11px">
@@ -84,6 +88,8 @@ import imageShow from '../../components/MyEditor/imageShow.vue'
 import divider from '../../components/MyEditor/divider.vue'
 import qrCodeApi from '@/api/qrCode/qrcode'
 import formApi from '@/api/form/form'
+import myInput from '../../components/MyEditor/myInput.vue'
+import navigationBar from '../../components/MyEditor/navigationBar.vue'
 
 export default {
   components: {
@@ -91,7 +97,9 @@ export default {
     radioGroup,
     slider,
     imageShow,
-    divider
+    divider,
+    myInput,
+    navigationBar
   },
   data() {
     return {
@@ -116,7 +124,7 @@ export default {
     }
   },
   created() {
-    this.items = JSON.parse('[{"component":"radioGroup","label":"第二题：","defaultValue":"","modelValue":"","require":false,"defaultRadioOp":[{"radioLabel":"选项1","radioValue":"1"},{"radioLabel":"选项2","radioValue":"2"}]}]')
+    this.init()
   },
   methods: {
     addRadio(name, label, defaultValue, modelValue, require, defaultRadioOp) {
@@ -168,6 +176,9 @@ export default {
         this.thisRadioList = []
         this.thisSliderList = 0
       } else if(component === 'divider') {
+        this.thisRadioList = []
+        this.thisSliderList = 0
+      } else if(component === 'input') {
         this.thisRadioList = []
         this.thisSliderList = 0
       }
@@ -222,7 +233,20 @@ export default {
       console.log(JSON.parse(JSON.stringify(this.items)))
       console.log(this.title)
       console.log(this.description)
-    }
+    },
+    init() {
+      if(this.$route.params && this.$route.params.id){
+        this.formId = this.$route.params.id
+        const id = this.$route.params.id
+        this.getInfo(id)
+      }       
+    },
+    getInfo(id) {
+      formApi.getFormItemById(id).then(res=>{
+        this.items = JSON.parse(res.data.formItem.item)
+        // console.log(this.items)
+      })
+    },
   }
 }
 </script>
@@ -233,15 +257,15 @@ export default {
   }
   .zujian:hover{
     width: 100%;
-    background-color: #bed6f842;
+    background-color: rgba(32, 178, 171, 0.266);
     cursor: pointer;
   }
   .bg-purple-darkTwo {
-    background: #99a9bf;
+    border-right: lightseagreen solid 1.7px;
     height: 100vh;
   }
   .bg-purple-darkOne {
-    background: #b0c8eb;
+    background: #f9fbfe;
     height: 100vh;
   }
   .bg-purple-darks {
@@ -249,7 +273,7 @@ export default {
     height: 100vh;
   }
   .bg-purple-darkThree {
-    background: #a4aaf5;
+    border-left: lightseagreen solid 1.7px;
     height: 100vh;
   }
   .outer {

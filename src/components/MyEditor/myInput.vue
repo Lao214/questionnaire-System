@@ -1,6 +1,7 @@
 <template>
     <div style="padding:11px" class="zujian" @click="callBack">
-        <el-divider />
+      <p class="demonstration">{{ label }}</p>
+      <el-input v-model="defaultValueHere" placeholder="请输入内容" @input="propDefaultValue(defaultValueHere)" />
     </div>
   </template>
   
@@ -26,13 +27,23 @@
     },
     data() {
       return {
-        component: 'divider',
-        sliderNumber: 0
+        component: 'myInput',
+        sliderNumber: 0,
+        defaultValueHere: this.defaultValue
+      }
+    },
+    watch: {
+      defaultValue(newDF ,oldDF){
+        this.defaultValueHere = newDF
       }
     },
     methods: {
       callBack() {
         this.$emit('callBack', this.component, this.optionKey)
+      },
+      propDefaultValue(value) {
+        console.log(value)
+        this.$emit('propDefaultValue', this.component, this.optionKey, value)
       }
     }
   }

@@ -22,7 +22,7 @@
     </el-col>
     <el-col :span="22">
       <div class="grid-content bg-purple-light">
-        <k-form-design hideModel showToolbarsText ref="kfd" title="" @save="saveOrUpdate"></k-form-design>
+        <k-form-design hideModel showToolbarsText ref="kfd" title="" @save="saveOrUpdate" />
       </div>
     </el-col>
 
