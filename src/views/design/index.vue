@@ -38,7 +38,6 @@
 import formApi from '@/api/form/form'
 import WEditor from  '@/components/editor/index.vue'
 import qrCodeApi from '@/api/qrCode/qrcode'
-import { nodeSchema } from 'k-form-design'
 
 export default {
   components: {
@@ -135,13 +134,7 @@ export default {
         this.update(this.formId,this.jsonList)
       }else{
         this.saveForm(this.jsonList)
-      } 
-      // 判断修改还是添加
-      // if(this.formId){
-      //   this.update(this.formId,values)
-      // }else{
-      //   this.saveForm(values)
-      // } 
+      }
     },
     //添加表单
     saveForm(values) {

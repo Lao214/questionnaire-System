@@ -1,14 +1,11 @@
 <template>
   <div style="padding:11px" class="zujian" @click="callBack">
-    <p>{{ label }}</p>
-    <el-radio-group v-model="defaultValueHere">
-      <el-radio v-for="(item, index) in radioListHere" :key="index" :label="item.radioValue" @change="propDefaultValue(item.radioValue)">{{ item.radioLabel }}</el-radio>
-    </el-radio-group>
+    <span class="demonstration">{{ label }}</span>
+    <el-slider v-model="defaultValueHere" :max="max" :min="min" :step="step" @input="propDefaultValue(defaultValueHere)" />
   </div>
 </template>
 
 <script>
-
 export default {
   props: {
     optionKey: {
@@ -24,19 +21,26 @@ export default {
       default: ''
     },
     defaultValue: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 0
     },
-    radioList: {
-      type: Array,
-      default: () => []
+    max: {
+      type: Number,
+      default: 0
+    },
+    min: {
+      type: Number,
+      default: 0
+    },
+    step: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
-      radioGroup: {},
-      component: 'radioGroup',
-      radioListHere: this.radioList,
+      component: 'slider',
+      sliderNumber: 0,
       defaultValueHere: this.defaultValue
     }
   },
@@ -56,3 +60,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>
