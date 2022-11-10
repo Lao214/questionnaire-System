@@ -1,9 +1,9 @@
 <template>
     <div style="padding:11px" class="zujian" @click="callBack">
-      <p class="demonstration">{{ label }}</p>
+      <p class="demonstration">{{ label }}<i id="del" class="el-icon-delete" style="position: absolute;top: 17%;right: 2%;" /></p>
       <el-input v-model="defaultValueHere" placeholder="请输入内容" @input="propDefaultValue(defaultValueHere)" />
     </div>
-  </template>
+</template>
   
   <script>
   export default {
@@ -47,4 +47,19 @@
       }
     }
   }
-  </script>
+</script>
+
+<style scoped>
+::v-deep .search .el-input{
+    position: relative;
+    font-size: 22px;
+    width: 45%;
+}
+::v-deep .search .el-input__inner{
+    padding-left: 40px;
+    width: 813px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 10px !important;
+}
+</style>

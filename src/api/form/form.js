@@ -12,7 +12,6 @@ export default{
             data:formQuery
           })
     },
-    // 创建表单
     getFormItemById(id) {
         return request({
             url: '/webApi/formItem/getFormItemByFormId/'+id,

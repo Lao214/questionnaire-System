@@ -7,19 +7,19 @@
       <el-col :span="4">
         <div class="grid-content bg-purple-darkTwo">
           <div style="padding:7px 2px 9px 5rem">
-            <el-button style="margin:7px;padding: 11px;" @click="addRadio('radioGroup','单选框', '', '', false, JSON.parse(JSON.stringify(defaultRadioOp)))">单选框组</el-button>
-            <el-button style="margin:7px;padding: 11px;" @click="addSlider('slider','滑动条',50,'',false,100,0,1)">滑动输入</el-button>
-            <el-button style="margin:7px;padding: 11px;" @click="add('imageShow','图片展示','https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg','',false)">图片展示</el-button>
-            <el-button style="margin:7px;padding: 11px;" @click="add('divider','','','',false)">el分割线</el-button>
-            <el-button style="margin:7px;padding: 11px;" @click="add('myInput','输入框','','',false)">el输入框</el-button>
+            <el-button style="margin:7px;padding: 11px;" @click="addRadio('radioGroup','单选框', '', false, JSON.parse(JSON.stringify(defaultRadioOp)))">单选框组</el-button>
+            <el-button style="margin:7px;padding: 11px;" @click="addSlider('slider','滑动条',50,false,100,0,1)">滑动输入</el-button>
+            <el-button style="margin:7px;padding: 11px;" @click="add('imageShow','图片展示','https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',false)">图片展示</el-button>
+            <el-button style="margin:7px;padding: 11px;" @click="add('divider','','',false)">el分割线</el-button>
+            <el-button style="margin:7px;padding: 11px;" @click="add('myInput','输入框','',false)">el输入框</el-button>
           </div>
         </div>
       </el-col>
       <el-col :span="16">
         <div class="grid-content bg-purple-darks">
-          <div style="width:100%;background-color: #fff;height: 47px;display:flex;justify-content:end;">
-            <!-- <el-button @click="returnForm">返回</el-button> -->
-            <el-button style="margin:2px 11px 2px 2px;" @click="saveData">保存</el-button>
+          <div style="width:100%;background-color: #fff;height: 47px;display:flex;justify-content:start;border-bottom: lightseagreen solid 1px;">
+            <span class="toolbar" @click="backToTable()"><i class="el-icon-close" /></span>
+            <span class="toolbar" @click="saveOrUpdate"><i class="el-icon-document-checked" />保存</span>
           </div>
           <div class="outer">
             <div class="inter">
@@ -29,10 +29,10 @@
                 </div>
                 <el-input v-show="!show" v-model="title"><el-button slot="append" icon="el-icon-check" @click="show = true" /></el-input>
               </el-row>
-              <el-row style="padding:11px" class="zujian">
-                <weditor :result-text-parent="description" />
+              <el-row style="padding:11px" class="editor">
+                <weditor @wangEditorChange="wangEditorChange" :result-text-parent="description" />
               </el-row>
-              <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :default-value="item.defaultValue" @callBack="callBack" @propDefaultValue="propDefaultValue" />
+              <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :default-value="item.defaultValue" @callBack="callBack" @propDefaultValue="propDefaultValue" @delCallBack="delCallBack" />
             </div>
           </div>
         </div>
@@ -90,6 +90,7 @@ import qrCodeApi from '@/api/qrCode/qrcode'
 import formApi from '@/api/form/form'
 import myInput from '../../components/MyEditor/myInput.vue'
 import navigationBar from '../../components/MyEditor/navigationBar.vue'
+import { start } from 'nprogress'
 
 export default {
   components: {
@@ -120,38 +121,47 @@ export default {
       thisSliderList: 0,
       sliderMax: 100,
       sliderMin: 0,
-      sliderStep: 1
+      sliderStep: 1,
+      formId: '',
+      formvo: {},
+      jsonList: {}
     }
   },
   created() {
     this.init()
   },
   methods: {
-    addRadio(name, label, defaultValue, modelValue, require, defaultRadioOp) {
+    addRadio(name, label, defaultValue, require, defaultRadioOp) {
+      var date = new Date().getTime()
+      console.log(date)
       this.items.push({
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: modelValue,
+        modelValue: name+date,
         require: require,
         defaultRadioOp: defaultRadioOp
       })
     },
-    add(name, label, defaultValue, modelValue, require) {
+    add(name, label, defaultValue, require) {
+      var date = new Date().getTime()
+      console.log(date)
       this.items.push({
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: modelValue,
+        modelValue: name+date,
         require: require
       })
     },
-    addSlider(name, label, defaultValue, modelValue, require, max, min, step) {
+    addSlider(name, label, defaultValue, require, max, min, step) {
+      var date = new Date().getTime()
+      console.log(date)
       this.items.push({
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: modelValue,
+        modelValue: name+date,
         require: require,
         max: max,
         min: min,
@@ -183,6 +193,10 @@ export default {
         this.thisSliderList = 0
       }
     },
+    delCallBack(component, key) {
+      console.log(key)
+      this.items.splice(key,1)
+    },
     propDefaultValue(component, key, defaultValue) {
       this.label = this.items[key].label
       this.optionIndex = key
@@ -196,8 +210,8 @@ export default {
       }
     },
     addRadioList() {
-      this.thisRadioList.push({ 'radioLabel': '选项' + (this.thisRadioList.length + 1), 'radioValue': this.thisRadioList.length + 1 })
-      this.items[this.optionIndex].defaultRadioOp.push({ 'radioLabel': '选项' + (this.thisRadioList.length), 'radioValue': this.thisRadioList.length })
+      this.thisRadioList.push({ 'radioLabel': '选项' + (this.thisRadioList.length + 1), 'radioValue': this.thisRadioList.length + 1 + '' })
+      this.items[this.optionIndex].defaultRadioOp.push({ 'radioLabel': '选项' + (this.thisRadioList.length), 'radioValue': this.thisRadioList.length + '' })
     },
     changeLabelInput(value, index) {
       this.items[this.optionIndex].defaultRadioOp[index].radioLabel = value
@@ -218,6 +232,9 @@ export default {
     changeModelValue(value) {
       this.items[this.optionIndex].modelValue = value
     },
+    wangEditorChange(editorHtml) {
+      this.description = editorHtml
+    },
     handleChangeSliderMax(value) {
       this.items[this.optionIndex].max = value
     },
@@ -227,12 +244,45 @@ export default {
     handleChangeSliderStep(value) {
       this.items[this.optionIndex].step = value
     },
-    saveData() {
-      console.log(this.items)
-      console.log(JSON.stringify(this.items))
-      console.log(JSON.parse(JSON.stringify(this.items)))
-      console.log(this.title)
-      console.log(this.description)
+    backToTable() {
+      this.$router.push({ path:'/forms/list' })
+    },
+    saveOrUpdate() {
+      this.jsonList = JSON.stringify(this.items)
+      if(this.formId){
+        this.update(this.formId, this.jsonList)
+      }else{
+        this.saveForm(this.jsonList)
+      }
+    },
+    //添加表单
+    saveForm(values) {
+      this.formvo.title  = this.title
+      this.formvo.description = this.description
+      this.formvo.values = values
+      console.log(this.formvo)
+      formApi.addForm(this.formvo).then(res => {
+        this.formId = res.data.formItem.formId
+        console.log(this.formId)
+        //提示信息
+        this.$message({
+          type: 'success',
+          message: '添加成功!'
+        })
+      })
+    },
+    update(id, values) {
+      this.formvo.title = this.title
+      this.formvo.description = this.description
+      this.formvo.values = values
+      this.formvo.id = id
+      formApi.update(this.formvo).then(res=>{
+        //提示信息
+        this.$message({
+          type: 'success',
+          message: '修改成功!'
+        })
+      })
     },
     init() {
       if(this.$route.params && this.$route.params.id){
@@ -243,8 +293,12 @@ export default {
     },
     getInfo(id) {
       formApi.getFormItemById(id).then(res=>{
-        this.items = JSON.parse(res.data.formItem.item)
-        // console.log(this.items)
+        this.items = JSON.parse(res.data.formItem.item) 
+        console.log(this.items)
+        formApi.getFormById(id).then(res =>{
+          this.title = res.data.form.name
+          this.description = res.data.form.description
+        })
       })
     },
   }
@@ -252,8 +306,26 @@ export default {
 </script>
 
 <style>
+  .toolbar{
+    margin:11px 17px 2px 17px;
+    font-size: 1rem;
+  }
+  .toolbar:hover{
+    color:lightseagreen;
+    cursor: pointer;
+  }
+  .editor{
+    width: 100%;
+    position: relative;
+  }
+  .editor:hover{
+    width: 100%;
+    background-color: rgba(32, 178, 171, 0.266);
+    cursor: pointer;
+  }
   .zujian{
     width: 100%;
+    position: relative;
   }
   .zujian:hover{
     width: 100%;

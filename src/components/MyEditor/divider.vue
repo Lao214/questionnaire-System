@@ -1,5 +1,6 @@
 <template>
     <div style="padding:11px" class="zujian" @click="callBack">
+      <i id="del" class="el-icon-delete" style="position: absolute;top: 17%;right: 2%;" />
         <el-divider />
     </div>
   </template>

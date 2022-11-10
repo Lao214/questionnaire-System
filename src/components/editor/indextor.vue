@@ -1,8 +1,6 @@
 <template>
     <div>
       <div>
-        <!-- <button @click="printEditorHtml">print html</button>
-        <button @click="getEditorText">print text</button> -->
       </div>
       <div  style="border: 1px solid #ccc; margin-top: 10px">
         <!-- 工具栏 -->
@@ -18,18 +16,6 @@
           @onFocus="onFocus"
         />
       </div>
-      <!-- <div style="margin-top: 10px">
-        <textarea
-          v-model="html"
-          readonly
-          style="width: 100%; height: 200px; outline: none"
-        ></textarea>
-      </div> -->
-      <!-- <div v-html="html" @click="show()"></div> -->
-        
-      <!-- <div style="padding:7px;text-align: center;">
-        <el-button type="primary"  @click="callBack"  >确 定</el-button>
-      </div> -->
     </div>
   </template>
   
@@ -55,9 +41,7 @@
             excludeKeys: [ 'bulletedList', 'numberedList' ]
         },
         editorConfig: {
-          placeholder: "请输入内容...",
-          // autoFocus: false,
-          // 所有的菜单配置，都要在 MENU_CONF 属性下
+          placeholder: "请输入您的问卷描述...",
           MENU_CONF: {},
         },
       };
@@ -67,7 +51,8 @@
         this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
       },
       onChange(editor) {
-        console.log("onChange", editor.getHtml()) // onChange 时获取编辑器最新内容
+        console.log('onChange', editor.getHtml()) // onChange 时获取编辑器最新内容
+        this.$emit('wangEditorChange', editor.getHtml())
       },
       getEditorText() {
         const editor = this.editor

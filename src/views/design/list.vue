@@ -33,7 +33,7 @@
 
     <el-col :span="4" style="padding-left:47px">
         <div class="grid-content bg-purple">
-          <router-link :to="'/design'">
+          <router-link :to="'/kndex'">
             <el-button type="success">+  创建表单</el-button>
           </router-link>
         </div>

@@ -1,6 +1,6 @@
 <template>
     <div style="padding:11px" class="zujian" @click="callBack">
-      <!-- <span class="demonstration">{{ label }}</span> -->
+      <i id="del" class="el-icon-delete" style="position: absolute;top: 0%;right: 2%;z-index: 999;" />
       <el-image :src="defaultValue"></el-image>
     </div>
   </template>

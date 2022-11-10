@@ -35,7 +35,7 @@ export const constantRoutes = [
   },
   {
     path: '/edit/:id',
-    component: () => import('@/views/design/index'),
+    component: () => import('@/views/Kdesign/k'),
     hidden: true
   },
 

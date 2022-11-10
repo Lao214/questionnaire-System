@@ -1,5 +1,5 @@
 <template>
-  <div class="bodey">
+  <div class="body">
     <p style="font-size:1rem;color:lightseagreen;position: absolute;left: 1.4%;top: 45%;">更<br>多</p>
     <div class="container">
       <!-- --t是自定义属性，通过var函数可调用 -->
