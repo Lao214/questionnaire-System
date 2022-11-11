@@ -4,22 +4,22 @@
     <div class="container">
       <!-- --t是自定义属性，通过var函数可调用 -->
       <el-tooltip class="item" effect="dark" content="编辑" placement="right">
-        <li style="--t:20%;"><a href="#"><i class="el-icon-edit" aria-hidden="true" /></a></li>
+        <li style="--t:20%;"><a @click="goToEdit()"><i class="el-icon-edit" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="发布" placement="right">
-        <li style="--t:30%;"><a href="#"><i class="el-icon-video-play" aria-hidden="true" /></a></li>
+        <li style="--t:30%;"><a @click="goToPublish()"><i class="el-icon-video-play" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="数据" placement="right">
-        <li style="--t:40%;"><a href="#"><i class="el-icon-s-platform" aria-hidden="true" /></a></li>
+        <li style="--t:40%;"><a><i class="el-icon-s-platform" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="统计" placement="right">
-        <li style="--t:50%;"><a href="#"><i class="el-icon-s-data" aria-hidden="true" /></a></li>
+        <li style="--t:50%;"><a><i class="el-icon-s-data" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="逻辑" placement="right">
-        <li style="--t:60%;"><a href="#"><i class="el-icon-s-promotion" aria-hidden="true" /></a></li>
+        <li style="--t:60%;"><a><i class="el-icon-s-promotion" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="退出" placement="right">
-       <li style="--t:70%;"><a href="#"><i class="el-icon-d-arrow-left" aria-hidden="true" /></a></li>
+       <li style="--t:70%;"><a><i class="el-icon-d-arrow-left" aria-hidden="true" /></a></li>
       </el-tooltip>
       <div class="top"></div>
       <div class="middle"></div>
@@ -28,6 +28,41 @@
   </div>
 </template>
 
+<script>
+export default {
+  props: {
+    formId: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+     
+    }
+  },
+  methods: {
+    goToEdit() {
+      if (this.$route.params && this.$route.params.id) {
+        this.$router.push({ path:'/edit/' + this.$route.params.id })
+      }
+      if (this.$route.query && this.$route.query.id) {
+        this.$router.push({ path:'/edit/' + this.$route.query.id })
+      }
+      else{
+        this.$router.push({ path:'/kndex' })
+      }
+    },
+    goToPublish() {
+      if(this.$route.params && this.$route.params.id){
+        this.$router.push({ path:'/publish/', query: { id: this.$route.params.id } })
+      }else{
+        this.$emit('goToPublish')
+      }
+    },
+  }
+}
+</script>
 
 <style scoped>
 *{

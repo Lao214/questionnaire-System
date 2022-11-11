@@ -140,7 +140,7 @@ export default {
   height: 254px;
   margin: 20px;
   padding: 20px 20px;
-  background: #ebf5fc;
+  background: rgba(175, 198, 196, 0.279);
   border-radius: 40px;
   box-shadow: -6px -6px 20px rgba(255, 255, 255, 1),
               6px 6px 20px rgba(0, 0, 0, .1);
@@ -167,14 +167,14 @@ export default {
 }
 
 .container .card .contentBx h2{
-  color: #32a3b1;
+  color: lightseagreen;
   font-weight: 700;
   font-size: 1.4em;
   letter-spacing: 2px;
 }
 
 .container .card .contentBx p{
-  color: #32a3b1;
+  color: lightseagreen;
 }
 
 .container .card .contentBx a{
@@ -182,7 +182,7 @@ export default {
   padding: 10px 20px;
   margin-top: 15px;
   border-radius: 40px;
-  color: #32a3b1;
+  color: lightseagreen;
   font-size: 16px;
   text-decoration: none;
   box-shadow: -4px -4px 15px rgba(255, 255, 255, 1),

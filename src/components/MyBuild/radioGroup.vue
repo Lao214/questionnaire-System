@@ -1,6 +1,6 @@
 <template>
-  <div style="padding:11px" class="zujian" @click="callBack">
-    <p>{{ label }}<i id="del" class="el-icon-delete" style="position: absolute;top: 17%;right: 2%;" @click="delCallBack" /></p>
+  <div style="padding:11px" class="zujian">
+    <p>{{ label }}</p>
     <el-radio-group v-model="defaultValueHere">
       <el-radio v-for="(item, index) in radioList" :key="index" :label="item.radioValue + ''" @change="propDefaultValue(item.radioValue)">{{ item.radioLabel }}</el-radio>
     </el-radio-group>
@@ -36,7 +36,6 @@ export default {
     return {
       radioGroup: {},
       component: 'radioGroup',
-      // radioListHere: this.radioList,
       defaultValueHere: this.defaultValue
     }
   },
@@ -47,15 +46,10 @@ export default {
     }
   },
   methods: {
-    callBack() {
-      this.$emit('callBack', this.component, this.optionKey)
-    },
     propDefaultValue(value) {
       console.log(value)
-      this.$emit('propDefaultValue', this.component, this.optionKey, value)
-    },
-    delCallBack() {
-      this.$emit('delCallBack', this.component, this.optionKey)
+      this.$emit('propDefaultValue', this.modelValue, value)
+      console.log(this.modelValue)
     }
   }
 }

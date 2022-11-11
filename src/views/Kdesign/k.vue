@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="1">
-        <navigationBar />
+        <navigationBar :form-id="formId" @goToPublish="goToPublish" />
       </el-col>
       <el-col :span="4">
         <div class="grid-content bg-purple-darkTwo">
@@ -30,7 +30,7 @@
                 <el-input v-show="!show" v-model="title"><el-button slot="append" icon="el-icon-check" @click="show = true" /></el-input>
               </el-row>
               <el-row style="padding:11px" class="editor">
-                <weditor @wangEditorChange="wangEditorChange" :result-text-parent="description" />
+                <weditor :result-text-parent="description" @wangEditorChange="wangEditorChange" />
               </el-row>
               <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :default-value="item.defaultValue" @callBack="callBack" @propDefaultValue="propDefaultValue" @delCallBack="delCallBack" />
             </div>
@@ -86,11 +86,9 @@ import radioGroup from '../../components/MyEditor/radioGroup.vue'
 import slider from '../../components/MyEditor/slider.vue'
 import imageShow from '../../components/MyEditor/imageShow.vue'
 import divider from '../../components/MyEditor/divider.vue'
-import qrCodeApi from '@/api/qrCode/qrcode'
 import formApi from '@/api/form/form'
 import myInput from '../../components/MyEditor/myInput.vue'
 import navigationBar from '../../components/MyEditor/navigationBar.vue'
-import { start } from 'nprogress'
 
 export default {
   components: {
@@ -138,7 +136,7 @@ export default {
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: name+date,
+        modelValue: name + date,
         require: require,
         defaultRadioOp: defaultRadioOp
       })
@@ -150,7 +148,7 @@ export default {
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: name+date,
+        modelValue: name + date,
         require: require
       })
     },
@@ -161,7 +159,7 @@ export default {
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: name+date,
+        modelValue: name + date,
         require: require,
         max: max,
         min: min,
@@ -182,20 +180,20 @@ export default {
         this.sliderMax = this.items[this.optionIndex].max
         this.sliderMin = this.items[this.optionIndex].min
         this.sliderStep = this.items[this.optionIndex].step
-      } else if(component === 'imageShow') {
+      } else if (component === 'imageShow') {
         this.thisRadioList = []
         this.thisSliderList = 0
-      } else if(component === 'divider') {
+      } else if (component === 'divider') {
         this.thisRadioList = []
         this.thisSliderList = 0
-      } else if(component === 'input') {
+      } else if (component === 'myInput') {
         this.thisRadioList = []
         this.thisSliderList = 0
       }
     },
     delCallBack(component, key) {
-      console.log(key)
-      this.items.splice(key,1)
+      // console.log(key)
+      this.items.splice(key, 1)
     },
     propDefaultValue(component, key, defaultValue) {
       this.label = this.items[key].label
@@ -203,8 +201,8 @@ export default {
       this.modelValue = this.items[key].modelValue
       if (component === 'slider') {
         this.defaultValue = defaultValue
-        this.items[this.optionIndex].defaultValue =  parseInt(defaultValue)
-      }else {
+        this.items[this.optionIndex].defaultValue = parseInt(defaultValue)
+      } else {
         this.defaultValue = defaultValue
         this.items[this.optionIndex].defaultValue = defaultValue
       }
@@ -224,7 +222,7 @@ export default {
     },
     changeDefaultValue(value) {
       if (this.items[this.optionIndex].component === 'slider') {
-        this.items[this.optionIndex].defaultValue =  parseInt(value)
+        this.items[this.optionIndex].defaultValue = parseInt(value)
       } else {
         this.items[this.optionIndex].defaultValue = value
       }
@@ -245,26 +243,37 @@ export default {
       this.items[this.optionIndex].step = value
     },
     backToTable() {
-      this.$router.push({ path:'/forms/list' })
+      this.$router.push({ path: '/forms/list' })
     },
     saveOrUpdate() {
       this.jsonList = JSON.stringify(this.items)
-      if(this.formId){
+      if (this.formId) {
         this.update(this.formId, this.jsonList)
-      }else{
+      } else {
         this.saveForm(this.jsonList)
       }
     },
-    //添加表单
-    saveForm(values) {
-      this.formvo.title  = this.title
+    goToPublish(){
+      this.jsonList = JSON.stringify(this.items)
+      this.formvo.title = this.title
       this.formvo.description = this.description
-      this.formvo.values = values
-      console.log(this.formvo)
+      this.formvo.values = this.jsonList
       formApi.addForm(this.formvo).then(res => {
         this.formId = res.data.formItem.formId
-        console.log(this.formId)
-        //提示信息
+        this.$message({
+          type: 'success',
+          message: '添加成功!'
+        })
+        this.$router.push({ path:'/publish/', query: { id: res.data.formItem.formId } })
+      })
+    },
+    saveForm(values) {
+      this.formvo.title = this.title
+      this.formvo.description = this.description
+      this.formvo.values = values
+      // console.log(this.formvo)
+      formApi.addForm(this.formvo).then(res => {
+        this.formId = res.data.formItem.formId
         this.$message({
           type: 'success',
           message: '添加成功!'
@@ -276,8 +285,7 @@ export default {
       this.formvo.description = this.description
       this.formvo.values = values
       this.formvo.id = id
-      formApi.update(this.formvo).then(res=>{
-        //提示信息
+      formApi.update(this.formvo).then(res => {
         this.$message({
           type: 'success',
           message: '修改成功!'
@@ -285,22 +293,22 @@ export default {
       })
     },
     init() {
-      if(this.$route.params && this.$route.params.id){
+      if (this.$route.params && this.$route.params.id) {
         this.formId = this.$route.params.id
         const id = this.$route.params.id
         this.getInfo(id)
-      }       
+      }
     },
     getInfo(id) {
-      formApi.getFormItemById(id).then(res=>{
-        this.items = JSON.parse(res.data.formItem.item) 
+      formApi.getFormItemById(id).then(res => {
+        this.items = JSON.parse(res.data.formItem.item)
         console.log(this.items)
-        formApi.getFormById(id).then(res =>{
+        formApi.getFormById(id).then(res => {
           this.title = res.data.form.name
           this.description = res.data.form.description
         })
       })
-    },
+    }
   }
 }
 </script>

@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="design">
-      <k-form-build ref="kfb" :value="jsonData" />
+      <h2 style="text-align:center;">{{ title }}</h2>
+      <div v-html="description" />
+      <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :model-value="item.modelValue" :default-value="item.defaultValue" @propDefaultValue="propDefaultValue" />
     </div>
     <div style="padding:0px 0px 2rem 0 ;">
     <el-button class="el-button--goon" style="display:block;margin:0 auto;" @click="handleGetData">提 交</el-button>
@@ -13,13 +15,30 @@
 <script>
 import formApi from '@/api/form/form'
 import formDataApi from '@/api/formData/formData'
+import weditor from '../../components/editor/indextor.vue'
+import radioGroup from '../../components/MyBuild/radioGroup.vue'
+import slider from '../../components/MyEditor/slider.vue'
+import imageShow from '../../components/MyEditor/imageShow.vue'
+import divider from '../../components/MyEditor/divider.vue'
+import myInput from '../../components/MyEditor/myInput.vue'
 
 export default {
+  components: {
+    weditor,
+    radioGroup,
+    slider,
+    imageShow,
+    divider,
+    myInput
+  },
     data () {
         return {
           jsonData: {},
           formId: '',
-          formvo: {}
+          formvo: {},
+          items: [],
+          title: '',
+          description: ''
       }
     },
     created() {
@@ -28,32 +47,38 @@ export default {
     },
     methods: {
       getInfo(id) {
-        formApi.getFormItemById(id).then(res=>{
-          this.jsonData = JSON.parse(res.data.formItem.item)
+        formApi.getFormItemById(id).then(res => {
+          this.items = JSON.parse(res.data.formItem.item)
+          // console.log(this.items)
+          for(var i = 0;i < this.items.length;i++){
+            this.jsonData[this.items[i].modelValue] = this.items[i].defaultValue
+          }
+          formApi.getFormById(id).then(res => {
+            this.title = res.data.form.name
+            this.description = res.data.form.description
+            // this.jsonData['title'] = this.title
+            // this.jsonData['description'] = this.description
+            this.jsonData['formId'] = this.formId
+            this.jsonData['createTime'] = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+          })
+        console.log(this.jsonData)
         })
       },
       handleGetData() {
-        // console.log(this.jsonData)
-        // 使用getData函数获取数据
-        this.$refs.kfb.getData().then(data => {
-          data["formId"]  = this.formId
-          data["createTime"]  = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
-          data["formName"]  = this.jsonData.list[0].label
-          console.log(data)
-          this.formvo.data = JSON.stringify(data)
-          this.formvo.id = this.formId
-          this.formvo.title = this.jsonData.list[0].label
-          console.log(this.formvo)
-          formDataApi.postFormData(this.formvo).then(res => {
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            })
-          })
-        }).catch(() => {
-          console.log('验证未通过，获取失败')
-        })
-      }  
+        this.formvo['data'] = JSON.stringify(this.jsonData)
+        this.formvo["id"]  = this.formId
+        this.formvo["title"]  = this.title
+        console.log(this.formvo)
+        // formDataApi.postFormData(this.formvo).then(res => {
+        //   this.$message({
+        //     type: 'success',
+        //     message: '提交成功!'
+        //   })
+        // })
+      },
+      propDefaultValue(modelValue, value) {
+        this.jsonData[modelValue] = value
+      }
     }
 }
 </script>
