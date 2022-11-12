@@ -15,7 +15,12 @@ export const constantRoutes = [
   },
   {
     path: '/build',
-    component: () => import('@/views/design/build'),
+    component: () => import('@/views/Kdesign/build'),
+    hidden: true
+  },
+  {
+    path: '/logic',
+    component: () => import('@/views/logic/logic'),
     hidden: true
   },
   {
@@ -24,13 +29,13 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/design',
-    component: () => import('@/views/design/index'),
+    path: '/publish',
+    component: () => import('@/views/publish/index'),
     hidden: true
   },
   {
-    path: '/publish',
-    component: () => import('@/views/publish/index'),
+    path: '/formData',
+    component: () => import('@/views/data/index'),
     hidden: true
   },
   {
@@ -64,18 +69,7 @@ export const constantRoutes = [
     name: 'Example',
     meta: { title: 'Example', icon: 'el-icon-s-help' },
     children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+      
     ]
   },
 
@@ -88,9 +82,9 @@ export const constantRoutes = [
       {
         path: 'list',
         name: 'DesignList',
-        component: () => import('@/views/design/list'),
+        component: () => import('@/views/Kdesign/list'),
         meta: { title: '列表', icon: 'table' }
-      },
+      }
     ]
   },
 

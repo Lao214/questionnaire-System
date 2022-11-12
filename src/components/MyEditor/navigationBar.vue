@@ -10,20 +10,20 @@
         <li style="--t:30%;"><a @click="goToPublish()"><i class="el-icon-video-play" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="数据" placement="right">
-        <li style="--t:40%;"><a><i class="el-icon-s-platform" aria-hidden="true" /></a></li>
+        <li style="--t:40%;"><a @click="goToData()"><i class="el-icon-s-platform" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="统计" placement="right">
         <li style="--t:50%;"><a><i class="el-icon-s-data" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="逻辑" placement="right">
-        <li style="--t:60%;"><a><i class="el-icon-s-promotion" aria-hidden="true" /></a></li>
+        <li style="--t:60%;"><a @click="goToLogic()"><i class="el-icon-s-promotion" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="退出" placement="right">
-       <li style="--t:70%;"><a><i class="el-icon-d-arrow-left" aria-hidden="true" /></a></li>
+        <li style="--t:70%;"><a @click="goBackTable()"><i class="el-icon-d-arrow-left" aria-hidden="true" /></a></li>
       </el-tooltip>
-      <div class="top"></div>
-      <div class="middle"></div>
-      <div class="bottom"></div>
+      <div class="top" />
+      <div class="middle" />
+      <div class="bottom" />
     </div>
   </div>
 </template>
@@ -38,28 +38,48 @@ export default {
   },
   data() {
     return {
-     
     }
   },
   methods: {
     goToEdit() {
       if (this.$route.params && this.$route.params.id) {
-        this.$router.push({ path:'/edit/' + this.$route.params.id })
-      }
-      if (this.$route.query && this.$route.query.id) {
-        this.$router.push({ path:'/edit/' + this.$route.query.id })
-      }
-      else{
-        this.$router.push({ path:'/kndex' })
+        this.$router.push({ path: '/edit/' + this.$route.params.id })
+      } else if (this.$route.query && this.$route.query.id) {
+        this.$router.push({ path: '/edit/' + this.$route.query.id })
+      } else {
+        this.$router.push({ path: '/kndex' })
       }
     },
     goToPublish() {
-      if(this.$route.params && this.$route.params.id){
-        this.$router.push({ path:'/publish/', query: { id: this.$route.params.id } })
-      }else{
+      if (this.$route.params && this.$route.params.id) {
+        this.$router.push({ path: '/publish/', query: { id: this.$route.params.id }})
+      } else if (this.$route.query && this.$route.query.id) {
+        this.$router.push({ path: '/publish/', query: { id: this.$route.query.id }})
+      } else {
         this.$emit('goToPublish')
       }
     },
+    goToData() {
+      if (this.$route.params && this.$route.params.id) {
+        this.$router.push({ path: '/formData/', query: { id: this.$route.params.id }})
+      } else if (this.$route.query && this.$route.query.id) {
+        this.$router.push({ path: '/formData/', query: { id: this.$route.query.id }})
+      } else {
+        this.$emit('goToData')
+      }
+    },
+    goToLogic() {
+      if (this.$route.params && this.$route.params.id) {
+        this.$router.push({ path: '/logic/', query: { id: this.$route.params.id }})
+      } else if (this.$route.query && this.$route.query.id) {
+        this.$router.push({ path: '/logic/', query: { id: this.$route.query.id }})
+      } else {
+        this.$emit('goToLogic')
+      }
+    },
+    goBackTable() {
+      this.$router.push({ path: '/forms/list' })
+    }
   }
 }
 </script>
@@ -73,7 +93,9 @@ export default {
 body{
     /* 100%窗口高度 */
     height: 100vh;
-    background-color: #333;
+    background-color: rgb(250, 250, 250);
+    position: relative;
+    border: 1px solid lightseagreen;
 }
 .container{
     width: 25px;
@@ -84,9 +106,10 @@ body{
     /* 垂直居中 */
     top: 50%;
     transform: translateY(-50%);
-    background-color:rgb(68, 67, 67);
+    background-color:rgb(255, 255, 255);
     /* 右上右下圆角 */
     border-radius: 0 15px 15px 0;
+    border: 1px solid lightseagreen;
     overflow: hidden;
     /* 动画过渡 */
     transition: 0.3s;
@@ -98,7 +121,7 @@ body{
 }
 .container:hover li a{
     /* 鼠标移入，改变字体颜色 */
-    color: #fff;
+    color: rgb(14, 14, 14);
 }
 .container::before{
     content: "";
@@ -114,7 +137,7 @@ body{
     width: calc(100% - 30px);
     margin-left: 30px;
     height: 20%;
-    background-color: rgb(68, 67, 67);
+    background-color: rgb(255, 255, 255);
     border-radius: 0 0 0 20px;
     /* 动画过渡 */
     transition: 0.2s;
@@ -130,7 +153,7 @@ body{
     width: calc(100% - 30px);
     height: 100%;
     margin-left: 30px;
-    background-color: rgb(68, 67, 67);
+    background-color: rgb(255, 255, 255);
     border-radius: 20px 0 0 0;
 }
 .container li{

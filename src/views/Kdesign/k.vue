@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="1">
-        <navigationBar :form-id="formId" @goToPublish="goToPublish" />
+        <navigationBar :form-id="formId" @goToPublish="goToPublish" @goToData="goToData" @goToLogic="goToLogic" />
       </el-col>
       <el-col :span="4">
         <div class="grid-content bg-purple-darkTwo">
@@ -253,19 +253,53 @@ export default {
         this.saveForm(this.jsonList)
       }
     },
-    goToPublish(){
+    goToPublish() {
       this.jsonList = JSON.stringify(this.items)
       this.formvo.title = this.title
       this.formvo.description = this.description
       this.formvo.values = this.jsonList
-      formApi.addForm(this.formvo).then(res => {
-        this.formId = res.data.formItem.formId
-        this.$message({
-          type: 'success',
-          message: '添加成功!'
+      if(!this.formId){
+        formApi.addForm(this.formvo).then(res => {
+          this.formId = res.data.formItem.formId
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.$router.push({ path: '/publish/', query: { id: res.data.formItem.formId }})
         })
-        this.$router.push({ path:'/publish/', query: { id: res.data.formItem.formId } })
-      })
+      }
+    },
+    goToData() {
+      if(!this.formId){
+        this.jsonList = JSON.stringify(this.items)
+        this.formvo.title = this.title
+        this.formvo.description = this.description
+        this.formvo.values = this.jsonList
+        formApi.addForm(this.formvo).then(res => {
+          this.formId = res.data.formItem.formId
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.$router.push({ path: '/formData/', query: { id: res.data.formItem.formId }})
+        })
+      }
+    },
+    goToLogic() {
+      if(!this.formId){
+        this.jsonList = JSON.stringify(this.items)
+        this.formvo.title = this.title
+        this.formvo.description = this.description
+        this.formvo.values = this.jsonList
+        formApi.addForm(this.formvo).then(res => {
+          this.formId = res.data.formItem.formId
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.$router.push({ path: '/logic/', query: { id: res.data.formItem.formId }})
+        })
+      }
     },
     saveForm(values) {
       this.formvo.title = this.title

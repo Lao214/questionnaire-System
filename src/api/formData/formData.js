@@ -7,5 +7,12 @@ export default{
             method: 'post',
             data:formvo
         })
+    },
+    getFormDataList(current,limit,formQuery) {
+        return request({
+            url: '/webApi/formData/getFormDataListPage/' + current + '/' + limit,
+            method: 'post',
+            data: formQuery
+        })
     }
 }
