@@ -32,6 +32,13 @@ export default{
             data:formvo
         })
     },
+    updateFormItem(formvo) {
+        return request({
+            url: '/webApi/formItem/updateFormItem',
+            method: 'post',
+            data:formvo
+        })
+    },
     publish(id) {
         return request({
             url: '/webApi/form/publish/'+id,

@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       jsonData: {},
+      scoreData: {},
       formId: '',
       formvo: {},
       items: [],
@@ -49,9 +50,12 @@ export default {
     getInfo(id) {
       formApi.getFormItemById(id).then(res => {
         this.items = JSON.parse(res.data.formItem.item)
-        // console.log(this.items)
+        console.log(this.items)
         for (var i = 0; i < this.items.length; i++) {
-          this.jsonData[this.items[i].modelValue] = this.items[i].defaultValue
+          if (this.items[i].component === 'radioGroup' && this.items[i].component === 'slider' && this.items[i].component === 'myInput') {
+            this.jsonData[this.items[i].modelValue] = this.items[i].defaultValue
+            this.scoreData[this.items[i].modelValue] = this.items[i].nickname
+          }
         }
         formApi.getFormById(id).then(res => {
           this.title = res.data.form.name
@@ -61,7 +65,6 @@ export default {
           this.jsonData['formId'] = this.formId
           this.jsonData['createTime'] = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
         })
-        console.log(this.jsonData)
       })
     },
     handleGetData() {

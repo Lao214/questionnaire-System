@@ -109,7 +109,7 @@ export default {
       count: 0,
       items: [],
       options: [],
-      defaultRadioOp: [{ 'radioLabel': '选项1', 'radioValue': '1' }, { 'radioLabel': '选项2', 'radioValue': '2' }],
+      defaultRadioOp: [{ 'radioLabel': '选项1', 'radioValue': '1', 'score': 0 }, { 'radioLabel': '选项2', 'radioValue': '2', 'score': 0 }],
       requireOption: 0,
       defaultValue: '',
       label: '',
@@ -138,7 +138,9 @@ export default {
         defaultValue: defaultValue,
         modelValue: name + date,
         require: require,
-        defaultRadioOp: defaultRadioOp
+        defaultRadioOp: defaultRadioOp,
+        nickname: '',
+        checkScore: ''
       })
     },
     add(name, label, defaultValue, require) {
@@ -163,7 +165,9 @@ export default {
         require: require,
         max: max,
         min: min,
-        step: step
+        step: step,
+        nickname: '',
+        checkScore: ''
       })
     },
     callBack(component, key) {
@@ -208,8 +212,8 @@ export default {
       }
     },
     addRadioList() {
-      this.thisRadioList.push({ 'radioLabel': '选项' + (this.thisRadioList.length + 1), 'radioValue': this.thisRadioList.length + 1 + '' })
-      this.items[this.optionIndex].defaultRadioOp.push({ 'radioLabel': '选项' + (this.thisRadioList.length), 'radioValue': this.thisRadioList.length + '' })
+      this.thisRadioList.push({ 'radioLabel': '选项' + (this.thisRadioList.length + 1), 'radioValue': this.thisRadioList.length + 1 + '', 'score': 0 })
+      this.items[this.optionIndex].defaultRadioOp.push({ 'radioLabel': '选项' + (this.thisRadioList.length), 'radioValue': this.thisRadioList.length + '', 'score': 0 })
     },
     changeLabelInput(value, index) {
       this.items[this.optionIndex].defaultRadioOp[index].radioLabel = value
