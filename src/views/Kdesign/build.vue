@@ -67,7 +67,7 @@ export default {
     },
     handleGetData() {
       this.formvo['data'] = JSON.stringify(this.jsonData)
-      this.formvo['scoreJSON']= JSON.stringify(this.scoreData)
+      this.formvo['scoreJSON'] = JSON.stringify(this.scoreData)
       this.formvo['id'] = this.formId
       this.formvo['title'] = this.title
       console.log(this.formvo)

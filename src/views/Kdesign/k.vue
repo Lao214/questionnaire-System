@@ -262,7 +262,7 @@ export default {
       this.formvo.title = this.title
       this.formvo.description = this.description
       this.formvo.values = this.jsonList
-      if(!this.formId){
+      if (!this.formId) {
         formApi.addForm(this.formvo).then(res => {
           this.formId = res.data.formItem.formId
           this.$message({
@@ -274,7 +274,7 @@ export default {
       }
     },
     goToData() {
-      if(!this.formId){
+      if (!this.formId) {
         this.jsonList = JSON.stringify(this.items)
         this.formvo.title = this.title
         this.formvo.description = this.description
@@ -290,7 +290,7 @@ export default {
       }
     },
     goToLogic() {
-      if(!this.formId){
+      if (!this.formId) {
         this.jsonList = JSON.stringify(this.items)
         this.formvo.title = this.title
         this.formvo.description = this.description

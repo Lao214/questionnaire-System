@@ -24,6 +24,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/editEvaluatePhone',
+    component: () => import('@/views/logic/evaluateEditPhone'),
+    hidden: true
+  },
+  {
+    path: '/editEvaluatePC',
+    component: () => import('@/views/logic/evaluateEditPC'),
+    hidden: true
+  },
+  {
     path: '/kndex',
     component: () => import('@/views/Kdesign/k'),
     hidden: true
@@ -69,7 +79,7 @@ export const constantRoutes = [
     name: 'Example',
     meta: { title: 'Example', icon: 'el-icon-s-help' },
     children: [
-      
+
     ]
   },
 

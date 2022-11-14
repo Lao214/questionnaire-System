@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <p style="font-size:1rem;color:lightseagreen;position: absolute;left: 1.4%;top: 45%;">更<br>多</p>
+    <p style="font-size:1rem;color:lightseagreen;position: absolute;left: 1.4%;top: 45%;z-index: 99;">更<br>多</p>
     <div class="container">
       <!-- --t是自定义属性，通过var函数可调用 -->
       <el-tooltip class="item" effect="dark" content="编辑" placement="right">
@@ -98,6 +98,7 @@ body{
     border: 1px solid lightseagreen;
 }
 .container{
+    z-index: 999;
     width: 25px;
     height: 700px;
     /* 绝对固定定位 */
