@@ -3,7 +3,7 @@
     <div class="design">
       <h2 style="text-align:center;">{{ title }}</h2>
       <div v-html="description" />
-      <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :model-value="item.modelValue" :default-value="item.defaultValue" @propDefaultValue="propDefaultValue" />
+      <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :nickname="item.nickname" :label="item.label" :option-key="index" :model-value="item.modelValue" :default-value="item.defaultValue" @propDefaultValue="propDefaultValue" />
     </div>
     <div style="padding:0px 0px 2rem 0 ;">
       <el-button class="el-button--goon" style="display:block;margin:0 auto;" @click="handleGetData">提 交</el-button>
@@ -54,14 +54,12 @@ export default {
         for (var i = 0; i < this.items.length; i++) {
           if (this.items[i].component === 'radioGroup' && this.items[i].component === 'slider' && this.items[i].component === 'myInput') {
             this.jsonData[this.items[i].modelValue] = this.items[i].defaultValue
-            this.scoreData[this.items[i].modelValue] = this.items[i].nickname
+            // this.scoreData[this.items[i].modelValue] = this.items[i].nickname
           }
         }
         formApi.getFormById(id).then(res => {
           this.title = res.data.form.name
           this.description = res.data.form.description
-          // this.jsonData['title'] = this.title
-          // this.jsonData['description'] = this.description
           this.jsonData['formId'] = this.formId
           this.jsonData['createTime'] = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
         })
@@ -69,6 +67,7 @@ export default {
     },
     handleGetData() {
       this.formvo['data'] = JSON.stringify(this.jsonData)
+      this.formvo['scoreJSON']= JSON.stringify(this.scoreData)
       this.formvo['id'] = this.formId
       this.formvo['title'] = this.title
       console.log(this.formvo)
@@ -79,8 +78,9 @@ export default {
         })
       })
     },
-    propDefaultValue(modelValue, value) {
+    propDefaultValue(modelValue, value, score, nickname) {
       this.jsonData[modelValue] = value
+      this.scoreData[nickname] = score
     }
   }
 }

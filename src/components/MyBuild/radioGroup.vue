@@ -2,7 +2,7 @@
   <div style="padding:11px" class="zujian">
     <p>{{ label }}</p>
     <el-radio-group v-model="defaultValueHere">
-      <el-radio v-for="(item, index) in radioList" :key="index" :label="item.radioValue + ''" @change="propDefaultValue(item.radioValue)">{{ item.radioLabel }}</el-radio>
+      <el-radio v-for="(item, index) in radioList" :key="index" :label="item.radioValue + ''" @change="propDefaultValue(item.radioValue, item.score)">{{ item.radioLabel }}</el-radio>
     </el-radio-group>
   </div>
 </template>
@@ -30,6 +30,10 @@ export default {
     radioList: {
       type: Array,
       default: () => []
+    },
+    nickname: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -46,9 +50,11 @@ export default {
     }
   },
   methods: {
-    propDefaultValue(value) {
+    propDefaultValue(value, score) {
       console.log(value)
-      this.$emit('propDefaultValue', this.modelValue, value)
+      console.log(score)
+      console.log(this.nickname)
+      this.$emit('propDefaultValue', this.modelValue, value, score, this.nickname)
       console.log(this.modelValue)
     }
   }
