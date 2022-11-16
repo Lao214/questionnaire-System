@@ -7,7 +7,7 @@
             <div class="grid-content bg-purple-dark2">
               <i id="return" class="el-icon-d-arrow-left" style="font-size: 1.2rem;padding:0.7rem;" />
               <i id="return" class="el-icon-upload2" style="font-size: 1.2rem;padding:0.7rem;" />
-              <i id="return" class="el-icon-document-checked" style="font-size: 1.2rem;padding:0.7rem;" />
+              <i id="return" class="el-icon-document-checked" style="font-size: 1.2rem;padding:0.7rem;" @click="saveUI()" />
               <i id="return" class="el-icon-full-screen" style="font-size: 1.2rem;padding:0.7rem;" />
               <i id="return" class="el-icon-goods" style="font-size: 1.2rem;padding:0.7rem;" />
             </div>
@@ -15,14 +15,14 @@
           <el-col :span="24">
             <div class="grid-content bg-purple-dark3">
               <p style="text-align:center;font-weight: 600;margin-top: 0;padding-top: 1rem;">UI组件</p>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('circleScore','200',4,'21','分数：',JSON.parse(JSON.stringify(colors)))">环形分数</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('progressScore','100',6,'21','分数：',JSON.parse(JSON.stringify(colors)))">条形分数</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('imageShow','200',6,'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg')">图片展示</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('textScore','200',12,'请输入文字描述')">文字描述</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('myInput',)">表格</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('dividerScore','100',24,'')">分割线</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('grid','200',4)">空白栅格</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('myInput',)">正态分布图</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','circleScore','200',4,'21','分数：',JSON.parse(JSON.stringify(colors)))">环形分数</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','progressScore','100',6,'21','分数：',JSON.parse(JSON.stringify(colors)))">条形分数</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','imageShow','200',6,'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg','','','200','300')">图片展示</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','editorTextScore','400',12,'请输入文字描述')">文字描述</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','myInput',)">表格</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','dividerScore','100',24,'')">分割线</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','grid','200',4)">空白栅格</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('','myInput',)">正态分布图</el-button>
               <el-divider />
               <!-- <p style="text-align:center;font-weight: 600;">布局方式</p>
               <el-button style="margin:7px;padding: 11px;width: 91px;" @click="layout()">添加栅格</el-button>
@@ -35,7 +35,7 @@
       </el-col>
       <el-col :span="20">
         <div class="grid-content bg-purple">
-          <component :is="item.component" v-for="(item, index) in itemUI" :key="index" :gird="item.gird" :component-value="item.componentValue" :text="item.text" :colors="item.colors" :option-key="index" :height="item.height" @callBack="callBack" @delCallBack="delCallBack" />
+          <component :is="item.component" v-for="(item, index) in itemUI" :key="index" :gird="item.gird" :component-value="item.componentValue" :text="item.text" :colors="item.colors" :option-key="index" :height="item.height" :image-height="item.imageHeight" :image-width="item.imageWidth" :result="item.result" @callBack="callBack" @delCallBack="delCallBack" @wangEditorChange="wangEditorChange" />
         </div>
       </el-col>
     </el-row>
@@ -58,8 +58,9 @@
           <span style="line-height: 2rem;">预览值：</span><el-input v-model="thisValue" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisValue(thisValue)" />
         </div>
         <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:10%;">
-          <span style="line-height: 2rem;">高度：</span>
-          <el-input v-model="thisHight" :disabled="HightUnUsed" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisHight(thisHight)" />
+          <span v-if="component === 'imageShow'" style="line-height: 2rem;">图片高度：</span><el-input v-if="component === 'imageShow'" v-model="thisImageHeight" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisImageHeight(thisImageHeight)" />
+          <span v-if="component === 'imageShow'" style="line-height: 2rem;">图片宽度：</span><el-input v-if="component === 'imageShow'" v-model="thisImageWidth" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisImageWidth(thisImageWidth)" />
+          <span v-if="component !== 'imageShow'" style="line-height: 2rem;">高度：</span><el-input v-if="component !== 'imageShow'" v-model="thisHight" :disabled="HightUnUsed" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisHight(thisHight)" />
           <span style="line-height: 2rem;">描述：</span><el-input v-model="thisText" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisText(thisText)" />
           <span style="line-height: 2rem;">栅格数：</span><el-input v-model="thisGird" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisGird(thisGird)" />
         </div>
@@ -73,7 +74,8 @@ import circleScore from '@/components/myEvaluatePC/circle.vue'
 import progressScore from '@/components/myEvaluatePC/progress.vue'
 import dividerScore from '@/components/myEvaluatePC/divider.vue'
 import grid from '@/components/myEvaluatePC/grid.vue'
-import textScore from '@/components/myEvaluatePC/text.vue'
+import editorTextScore from '@/components/myEvaluatePC/editorText.vue'
+import imageShow from '@/components/myEvaluatePC/imageShow.vue'
 import formApi from '@/api/form/form'
 
 export default {
@@ -81,7 +83,8 @@ export default {
     circleScore,
     progressScore,
     dividerScore,
-    textScore,
+    editorTextScore,
+    imageShow,
     grid
   },
   data() {
@@ -107,7 +110,10 @@ export default {
       result: [],
       thisResult: '',
       component: '',
-      HightUnUsed: false
+      thisImageHeight: '',
+      thisImageWidth: '',
+      HightUnUsed: false,
+      formvo: {}
     }
   },
   created() {
@@ -119,17 +125,20 @@ export default {
     this.getFormById()
   },
   methods: {
-    add(name, height, gird, componentValue, text, colors) {
+    add(result, name, height, gird, componentValue, text, colors, imageHeight, imageWidth) {
       this.itemUI.push({
         component: name,
         height: height,
         gird: gird,
         componentValue: componentValue,
         text: text,
-        colors: colors
+        colors: colors,
+        imageHeight: imageHeight,
+        imageWidth: imageWidth,
+        result: result
       })
     },
-    callBack(component, optionKey, componentValue, text, gird, height) {
+    callBack(component, optionKey, componentValue, text, gird, height, result, imageHeight, imageWidth) {
       this.component = component
       this.show2 = true
       this.thisText = text
@@ -137,6 +146,9 @@ export default {
       this.optionIndex = optionKey
       this.thisGird = gird
       this.thisHight = height
+      this.thisResult = result
+      this.thisImageHeight = imageHeight
+      this.thisImageWidth = imageWidth
       if (component === 'circleScore') {
         this.thisColorsList = JSON.parse(JSON.stringify(this.itemUI[this.optionIndex].colors))
       } else if (component === 'progressScore') {
@@ -165,6 +177,13 @@ export default {
     changeColorInput(color, index) {
       this.itemUI[this.optionIndex].colors[index].color = color
     },
+    changeThisImageHeight(thisImageHeight) {
+      this.itemUI[this.optionIndex].imageHeight = thisImageHeight
+      this.thisHight = thisImageHeight
+    },
+    changeThisImageWidth(thisImageWidth) {
+      this.itemUI[this.optionIndex].imageWidth = thisImageWidth
+    },
     changePercentageInput(label, index) {
       this.itemUI[this.optionIndex].colors[index].label = parseFloat(label)
       if (index !== 4) {
@@ -192,6 +211,17 @@ export default {
           this.result.push('result' + (this.result.length + 1))
         }
       })
+    },
+    wangEditorChange(html, index) {
+      this.thisValue = html
+      this.itemUI[index].componentValue = html
+      console.log(this.itemUI)
+    },
+    saveUI() {
+      this.formvo['uiType'] = 'PC'
+      this.formvo['data'] = this.itemUI
+      this.formvo['id'] = this.formId
+      console.log(this.itemUI)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <el-col :span="girdHere">
     <div class="zujian" :style="styleList" @click="callBack()">
-      <i class="el-icon-delete" style="z-index: 99;" @click="delCallBack()" />
+      <i class="el-icon-delete" style="z-index: 99;" @click="delCallBack()" />UI序号：{{ optionKey }}
       <el-divider />
     </div>
   </el-col>
