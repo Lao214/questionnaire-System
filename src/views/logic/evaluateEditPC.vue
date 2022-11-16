@@ -14,14 +14,14 @@
           </el-col>
           <el-col :span="24">
             <div class="grid-content bg-purple-dark3">
-              <p style="text-align:center;font-weight: 600;padding-top: 1rem;">UI组件</p>
+              <p style="text-align:center;font-weight: 600;margin-top: 0;padding-top: 1rem;">UI组件</p>
               <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('circleScore','200',4,'21','分数：',JSON.parse(JSON.stringify(colors)))">环形分数</el-button>
               <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('progressScore','100',6,'21','分数：',JSON.parse(JSON.stringify(colors)))">条形分数</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('imageShow','图片展示','https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg')">图片展示</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('divider','10',24)">分割线</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('myInput','20',12)">文字描述</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('imageShow','200',6,'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg')">图片展示</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('textScore','200',12,'请输入文字描述')">文字描述</el-button>
               <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('myInput',)">表格</el-button>
-              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('myInput','20',6)">空白栅格</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('dividerScore','100',24,'')">分割线</el-button>
+              <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('grid','200',4)">空白栅格</el-button>
               <el-button style="margin:7px;padding: 11px;width: 91px;" @click="add('myInput',)">正态分布图</el-button>
               <el-divider />
               <!-- <p style="text-align:center;font-weight: 600;">布局方式</p>
@@ -35,56 +35,35 @@
       </el-col>
       <el-col :span="20">
         <div class="grid-content bg-purple">
-          <component :is="item.component" v-for="(item, index) in itemUI" :key="index"  :gird="item.gird" :componentValue="item.componentValue" :text="item.text" :colors="item.colors" :option-key="index" :height="item.height" @callBack="callBack" @delCallBack="delCallBack" />
+          <component :is="item.component" v-for="(item, index) in itemUI" :key="index" :gird="item.gird" :component-value="item.componentValue" :text="item.text" :colors="item.colors" :option-key="index" :height="item.height" @callBack="callBack" @delCallBack="delCallBack" />
         </div>
       </el-col>
     </el-row>
     <transition name="el-zoom-in-bottom">
-        <div v-show="show2" class="transition-box">
-          <i class="el-icon-close" style="position:absolute;right:0%;top:1%;font-size:1.7rem;cursor: pointer;" @click="show2 = false" />
-          <!--colors begin-->
-          <div style="width: 30%;display: flex;flex-wrap: wrap;width: 45%;">
-            <div v-for="(item,index) in thisColorsList" :key="index">
-              颜色：<el-input v-model="item.color" style="margin:7px 1rem 0rem 0rem;width: 160px;" @input="changeColorInput(item.color, index)" />
-              最大值：<el-input-number v-model="item.label" style="margin:7px 1rem 0rem 0rem;width: 160px;" @change="changePercentageInput(item.label, index)" />
-            </div>
-          </div>
-          <!--colors end-->
-          <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:30%;">
-            <span style="line-height: 2rem;">结果：</span>
-            <el-select v-model="thisResult" placeholder="请选择结果" @change="changeThisResult(thisResult)" style="margin-left:1rem;margin-right:1rem;width: 160px;">
-              <el-option v-for="(item, index) in result" :key="index" :label="item" :value="item" />
-            </el-select>
-            <span style="line-height: 2rem;">预览值：</span><el-input v-model="thisValue"  @input="changeThisValue(thisValue)" style="margin-left:1rem;margin-right:1rem;width: 160px;"/>
-          </div>
-          <!-- <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:50%;">
-            <span style="line-height: 2rem;">结果：</span>
-            <el-select v-model="thisResult" placeholder="请选择" @change="changeThisResult(thisResult)" style="margin-left:1rem;margin-right:1rem;width: 160px;">
-              <el-option v-for="(item, index) in result" :key="index" :label="item" :value="item" />
-            </el-select>
-            <span style="line-height: 2rem;">预览值：</span><el-input v-model="thisValue"  @input="changeThisValue(thisValue)" style="margin-left:1rem;margin-right:1rem;width: 160px;"/>
-          </div> -->
-          <!-- <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:90%;">
-            <span style="line-height: 2rem;">结果：</span>
-            <el-select v-model="thisResult" placeholder="请选择" @change="changeThisResult(thisResult)" style="margin-left:1rem;margin-right:1rem;width: 160px;">
-              <el-option v-for="(item, index) in result" :key="index" :label="item" :value="item" />
-            </el-select>
-            <span style="line-height: 2rem;">预览值：</span><el-input v-model="thisValue"  @input="changeThisValue(thisValue)" style="margin-left:1rem;margin-right:1rem;width: 160px;"/>
-          </div> -->
-          <!-- <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:70%;">
-            <span style="line-height: 2rem;">结果：</span>
-            <el-select v-model="thisResult" placeholder="请选择" @change="changeThisResult(thisResult)" style="margin-left:1rem;margin-right:1rem;width: 160px;">
-              <el-option v-for="(item, index) in result" :key="index" :label="item" :value="item" />
-            </el-select>
-            <span style="line-height: 2rem;">预览值：</span><el-input v-model="thisValue"  @input="changeThisValue(thisValue)" style="margin-left:1rem;margin-right:1rem;width: 160px;"/>
-          </div> -->
-          <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:10%;">
-            <span style="line-height: 2rem;">高度：</span>
-            <el-input :disabled="HightUnUsed" v-model="thisHight" @input="changeThisHight(thisHight)" style="margin-left:1rem;margin-right:1rem;width: 160px;" />
-            <span style="line-height: 2rem;">描述：</span><el-input v-model="thisText" @input="changeThisText(thisText)" style="margin-left:1rem;margin-right:1rem;width: 160px;" />
-            <span style="line-height: 2rem;">栅格数：</span><el-input v-model="thisGird" @input="changeThisGird(thisGird)" style="margin-left:1rem;margin-right:1rem;width: 160px;"/>
+      <div v-show="show2" class="transition-box">
+        <i class="el-icon-close" style="position:absolute;right:0%;top:1%;font-size:1.7rem;cursor: pointer;" @click="show2 = false" />
+        <!--colors begin-->
+        <div style="width: 30%;display: flex;flex-wrap: wrap;width: 45%;">
+          <div v-for="(item,index) in thisColorsList" :key="index">
+            颜色：<el-input v-model="item.color" style="margin:7px 1rem 0rem 0rem;width: 160px;" @input="changeColorInput(item.color, index)" />
+            最大值：<el-input-number v-model="item.label" style="margin:7px 1rem 0rem 0rem;width: 160px;" @change="changePercentageInput(item.label, index)" />
           </div>
         </div>
+        <!--colors end-->
+        <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:30%;">
+          <span style="line-height: 2rem;">结果：</span>
+          <el-select v-model="thisResult" placeholder="请选择结果" style="margin-left:1rem;margin-right:1rem;width: 160px;" @change="changeThisResult(thisResult)">
+            <el-option v-for="(item, index) in result" :key="index" :label="item" :value="item" />
+          </el-select>
+          <span style="line-height: 2rem;">预览值：</span><el-input v-model="thisValue" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisValue(thisValue)" />
+        </div>
+        <div style="display: flex;justify-content: end;position: absolute;right: 3%;top:10%;">
+          <span style="line-height: 2rem;">高度：</span>
+          <el-input v-model="thisHight" :disabled="HightUnUsed" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisHight(thisHight)" />
+          <span style="line-height: 2rem;">描述：</span><el-input v-model="thisText" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisText(thisText)" />
+          <span style="line-height: 2rem;">栅格数：</span><el-input v-model="thisGird" style="margin-left:1rem;margin-right:1rem;width: 160px;" @input="changeThisGird(thisGird)" />
+        </div>
+      </div>
     </transition>
   </div>
 </template>
@@ -92,23 +71,29 @@
 <script>
 import circleScore from '@/components/myEvaluatePC/circle.vue'
 import progressScore from '@/components/myEvaluatePC/progress.vue'
+import dividerScore from '@/components/myEvaluatePC/divider.vue'
+import grid from '@/components/myEvaluatePC/grid.vue'
+import textScore from '@/components/myEvaluatePC/text.vue'
 import formApi from '@/api/form/form'
 
 export default {
   components: {
     circleScore,
-    progressScore
+    progressScore,
+    dividerScore,
+    textScore,
+    grid
   },
   data() {
     return {
       styleList: '',
       itemUI: [],
       colors: [
-        {color: '#f56c6c', percentage: 20, label: 20},
-        {color: '#e6a23c', percentage: 40, label: 40},
-        {color: '#5cb87a', percentage: 60, label: 60},
-        {color: '#1989fa', percentage: 80, label: 80},
-        {color: '#6f7ad3', percentage: 100, label: 100}
+        { color: '#f56c6c', percentage: 20, label: 20 },
+        { color: '#e6a23c', percentage: 40, label: 40 },
+        { color: '#5cb87a', percentage: 60, label: 60 },
+        { color: '#1989fa', percentage: 80, label: 80 },
+        { color: '#6f7ad3', percentage: 100, label: 100 }
       ],
       serialNo: 0,
       show2: false,
@@ -126,9 +111,9 @@ export default {
     }
   },
   created() {
-    if(this.$route.query.id){
+    if (this.$route.query.id) {
       this.formId = this.$route.query.id
-    } else if(this.$route.params.id){
+    } else if (this.$route.params.id) {
       this.formId = this.$route.params.id
     }
     this.getFormById()
@@ -156,8 +141,6 @@ export default {
         this.thisColorsList = JSON.parse(JSON.stringify(this.itemUI[this.optionIndex].colors))
       } else if (component === 'progressScore') {
         this.thisColorsList = JSON.parse(JSON.stringify(this.itemUI[this.optionIndex].colors))
-      } else if (component === 'gird') {
-        HightUnUsed = false
       }
     },
     delCallBack(component, optionKey) {
@@ -186,28 +169,28 @@ export default {
       this.itemUI[this.optionIndex].colors[index].label = parseFloat(label)
       if (index !== 4) {
         for (var item of this.itemUI[this.optionIndex].colors) {
-          item.percentage = item.label  / this.itemUI[this.optionIndex].colors[4].label * 100
-          console.log(item.percentage)
+          item.percentage = item.label / this.itemUI[this.optionIndex].colors[4].label * 100
+          // console.log(item.percentage)
         }
       } else if (index === 4) {
         this.itemUI[this.optionIndex].colors[index].label = parseFloat(label)
         this.itemUI[this.optionIndex].colors[index].percentage = parseFloat(label)
-        for(var i = 0; i < 5; i++){
-          if (i !== index ) {
-            this.itemUI[this.optionIndex].colors[i].percentage = this.itemUI[this.optionIndex].colors[i].label  / this.itemUI[this.optionIndex].colors[4].label * 100
+        for (var i = 0; i < 5; i++) {
+          if (i !== index) {
+            this.itemUI[this.optionIndex].colors[i].percentage = this.itemUI[this.optionIndex].colors[i].label / this.itemUI[this.optionIndex].colors[4].label * 100
             console.log(this.itemUI[this.optionIndex].colors[i].percentage)
           }
         }
       }
-      console.log(this.itemUI)
+      // console.log(this.itemUI)
     },
     getFormById() {
       formApi.getFormById(this.formId).then(res => {
         var logic = res.data.form.evaluateLogic
         var resultArray = logic.split(',')
-          for (var i = 1; i < resultArray.length; i++) {
-            this.result.push('result' + (this.result.length + 1))
-          }
+        for (var i = 1; i < resultArray.length; i++) {
+          this.result.push('result' + (this.result.length + 1))
+        }
       })
     }
   }

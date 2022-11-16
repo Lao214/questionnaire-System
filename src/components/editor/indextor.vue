@@ -1,92 +1,88 @@
 <template>
-    <div>
-      <div>
-      </div>
-      <div  style="border: 1px solid #ccc; margin-top: 10px">
-        <!-- 工具栏 -->
-        <Toolbar v-show="show" style="border-bottom: 1px solid #ccc"  :editor="editor"  :defaultConfig="toolbarConfig"/>
-        <!-- 编辑器 -->
-        <Editor
-          style="height: 400px; overflow-y: hidden"
-          :defaultConfig="editorConfig"
-          v-model="html"
-          @onChange="onChange"
-          @onCreated="onCreated"
-          @onBlur="onBlur"
-          @onFocus="onFocus"
-        />
-      </div>
+  <div>
+    <div style="border: 1px solid #ccc; margin-top: 10px">
+      <!-- 工具栏 -->
+      <Toolbar v-show="show" style="border-bottom: 1px solid #ccc" :editor="editor" :default-config="toolbarConfig" />
+      <!-- 编辑器 -->
+      <Editor
+        v-model="html"
+        style="height: 400px; overflow-y: hidden"
+        :default-config="editorConfig"
+        @onChange="onChange"
+        @onCreated="onCreated"
+        @onBlur="onBlur"
+        @onFocus="onFocus"
+      />
     </div>
-  </template>
-  
-  <script>
-  import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-  
-  export default {
-    name: "MyEditor",
-    components: { Editor, Toolbar },
-    props: {
-      resultTextParent: {
-            type: String,
-            default: ''
-        },
-    },
-    data() {
-      return {
-        editor: null,
-        show: false,
-        html: '',
-        toolbarConfig: {
-            //toolbarKeys: [],
-            excludeKeys: [ 'bulletedList', 'numberedList' ]
-        },
-        editorConfig: {
-          placeholder: "请输入您的问卷描述...",
-          MENU_CONF: {},
-        },
-      };
-    },
-    methods: {
-      onCreated(editor) {
-        this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
+  </div>
+</template>
+
+<script>
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+
+export default {
+  components: { Editor, Toolbar },
+  props: {
+    resultTextParent: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      editor: null,
+      show: false,
+      html: '',
+      toolbarConfig: {
+        excludeKeys: ['bulletedList', 'numberedList']
       },
-      onChange(editor) {
-        console.log('onChange', editor.getHtml()) // onChange 时获取编辑器最新内容
-        this.$emit('wangEditorChange', editor.getHtml())
-      },
-      getEditorText() {
-        const editor = this.editor
-        if (editor == null) return
-        console.log(editor.getText()) // 执行 editor API
-      },
-      printEditorHtml() {
-        const editor = this.editor
-        if (editor == null) return
-        console.log(editor.getHtml()); // 执行 editor API
-      },
-      onFocus(editor) {
-        this.show = editor.isFocused()
-        console.log(editor.isFocused())
-      },
-      onBlur(editor) {
-        this.show = editor.isFocused()
-        console.log(editor.isFocused())
+      editorConfig: {
+        placeholder: '请输入您的问卷描述...',
+        MENU_CONF: {}
       }
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.html = this.resultTextParent
+    }, 500)
+  },
+  beforeDestroy() {
+    const editor = this.editor
+    if (editor == null) return
+    editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
+  },
+  methods: {
+    onCreated(editor) {
+      this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
-    mounted() {
-      setTimeout(() => {
-        this.html = this.resultTextParent
-      }, 500);
+    onChange(editor) {
+      console.log('onChange', editor.getHtml()) // onChange 时获取编辑器最新内容
+      this.$emit('wangEditorChange', editor.getHtml())
     },
-    beforeDestroy() {
+    getEditorText() {
       const editor = this.editor
       if (editor == null) return
-      editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
+      console.log(editor.getText()) // 执行 editor API
     },
-  };
-  </script>
-  
-  <style src="@wangeditor/editor/dist/css/style.css"></style>
+    printEditorHtml() {
+      const editor = this.editor
+      if (editor == null) return
+      console.log(editor.getHtml()) // 执行 editor API
+    },
+    onFocus(editor) {
+      this.show = editor.isFocused()
+      console.log(editor.isFocused())
+    },
+    onBlur(editor) {
+      this.show = editor.isFocused()
+      console.log(editor.isFocused())
+    }
+  }
+}
+</script>
+
+<style src="@wangeditor/editor/dist/css/style.css" />
 
 <style>
 /* table 样式 */

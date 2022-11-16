@@ -1,7 +1,7 @@
 <template>
   <el-col :span="girdHere">
     <div class="zujian" :style="styleList" @click="callBack()">
-      <i class="el-icon-delete" @click="delCallBack()" style="z-index: 99;" />
+      <i class="el-icon-delete" style="z-index: 99;" @click="delCallBack()" />
       <div class="circleBox">
         <el-progress type="circle" style="padding:1rem;" stroke-linecap="square" :percentage="parseInt(percentageHere)" :show-text="false" :color="colors" />
         <div class="textCenter">
@@ -41,13 +41,23 @@ export default {
       default: () => []
     }
   },
+  data() {
+    return {
+      colorHere: '',
+      component: 'circleScore',
+      percentageHere: parseFloat(this.componentValue) / this.colors[4].percentage * 100,
+      componentValueHere: this.componentValue,
+      styleList: 'height: ' + this.height + 'px;border: 1px lightseagreen solid;',
+      girdHere: this.gird
+    }
+  },
   watch: {
     componentValue(newDF, oldDF) {
       this.componentValueHere = this.componentValue
       this.percentageHere = parseFloat(this.componentValue) / this.colors[4].label * 100
       // console.log(this.percentageHere)
-      console.log(newDF / this.colors[4].label * 100)
-      if(newDF / this.colors[4].label * 100  < this.colors[0].percentage){
+      // console.log(newDF / this.colors[4].label * 100)
+      if (newDF / this.colors[4].label * 100 < this.colors[0].percentage) {
         this.colorHere = 'color:' + this.colors[0].color
       } else if (newDF / this.colors[4].label * 100 >= this.colors[0].percentage && newDF / this.colors[4].label * 100 < this.colors[1].percentage) {
         this.colorHere = 'color:' + this.colors[1].color
@@ -60,7 +70,7 @@ export default {
       }
     },
     height(newDF, oldDF) {
-      this.styleList = 'height: '+ newDF + 'px;border: 1px lightseagreen solid;'
+      this.styleList = 'height: ' + newDF + 'px;border: 1px lightseagreen solid;'
       console.log(newDF)
     },
     gird(newDF, oldDF) {
@@ -69,7 +79,7 @@ export default {
     }
   },
   created() {
-    if(this.componentValueHere / this.colors[4].label * 100 < this.colors[0].percentage){
+    if (this.componentValueHere / this.colors[4].label * 100 < this.colors[0].percentage) {
       this.colorHere = 'color:' + this.colors[0].color
     } else if (this.componentValueHere / this.colors[4].label * 100 >= this.colors[0].percentage && this.componentValue / this.colors[4].label * 100 < this.colors[1].percentage) {
       this.colorHere = 'color:' + this.colors[1].color
@@ -79,16 +89,6 @@ export default {
       this.colorHere = 'color:' + this.colors[3].color
     } else if (this.componentValueHere / this.colors[4].label * 100 >= this.colors[3].percentage) {
       this.colorHere = 'color:' + this.colors[4].color
-    }
-  },
-  data() {
-    return {
-      colorHere: '',
-      component: 'circleScore',
-      percentageHere:  parseFloat(this.componentValue) / this.colors[4].percentage *100,
-      componentValueHere: this.componentValue,
-      styleList: 'height: '+ this.height + 'px;border: 1px lightseagreen solid;',
-      girdHere: this.gird
     }
   },
   methods: {
