@@ -5,7 +5,7 @@
         <div class="grid-content bg-purple-dark">
           <el-col :span="24">
             <div class="grid-content bg-purple-dark2">
-              <i id="return" class="el-icon-d-arrow-left" style="font-size: 1.2rem;padding:0.7rem;" />
+              <i id="return" class="el-icon-d-arrow-left" style="font-size: 1.2rem;padding:0.7rem;" @click="backToLogic()" />
               <i id="return" class="el-icon-upload2" style="font-size: 1.2rem;padding:0.7rem;" />
               <i id="return" class="el-icon-document-checked" style="font-size: 1.2rem;padding:0.7rem;" @click="saveUI()" />
               <i id="return" class="el-icon-full-screen" style="font-size: 1.2rem;padding:0.7rem;" />
@@ -77,6 +77,7 @@ import grid from '@/components/myEvaluatePC/grid.vue'
 import editorTextScore from '@/components/myEvaluatePC/editorText.vue'
 import imageShow from '@/components/myEvaluatePC/imageShow.vue'
 import formApi from '@/api/form/form'
+import uiApi from '@/api/evaluate/evaluateUi'
 
 export default {
   components: {
@@ -113,7 +114,8 @@ export default {
       thisImageHeight: '',
       thisImageWidth: '',
       HightUnUsed: false,
-      formvo: {}
+      formvo: {},
+      uiKey: 0
     }
   },
   created() {
@@ -123,6 +125,7 @@ export default {
       this.formId = this.$route.params.id
     }
     this.getFormById()
+    this.getUiKey()
   },
   methods: {
     add(result, name, height, gird, componentValue, text, colors, imageHeight, imageWidth) {
@@ -217,11 +220,30 @@ export default {
       this.itemUI[index].componentValue = html
       console.log(this.itemUI)
     },
+    getUiKey() {
+      uiApi.getUiKey(this.$route.query.id).then(res => {
+        this.uiKey = res.data.ui.id
+        this.itemUI = JSON.parse(res.data.ui.components)
+        console.log(this.uiKey)
+      })
+    },
     saveUI() {
-      this.formvo['uiType'] = 'PC'
-      this.formvo['data'] = this.itemUI
+      this.formvo['data'] = JSON.stringify(this.itemUI)
       this.formvo['id'] = this.formId
-      console.log(this.itemUI)
+      this.formvo['uiKey'] = this.uiKey
+      // console.log(this.itemUI)
+      uiApi.addUI(this.formvo).then(res => {
+        this.uiKey = res.data.uiKey
+        if (res.success) {
+          this.$message({
+            type: 'success',
+            message: res.msg
+          })
+        }
+      })
+    },
+    backToLogic() {
+      this.$router.push({ path: '/logic', query: { id: this.formId }})
     }
   }
 }
