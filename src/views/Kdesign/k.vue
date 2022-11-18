@@ -139,7 +139,7 @@ export default {
         modelValue: name + date,
         require: require,
         defaultRadioOp: defaultRadioOp,
-        nickname: '',
+        nickname: 'q0',
         checkScore: ''
       })
     },

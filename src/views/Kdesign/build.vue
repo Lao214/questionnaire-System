@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="design">
-      <h1 id="inActiveTime" style="display: none;position:absolute;top: 0%;left: 0%;" />
+      <h1 id="inActiveTime" style="display: none;position:absolute;bottom: 50%;left: 20%; color:#999;">{{ inActiveTime }}</h1>
       <h2 style="text-align:center;">{{ title }}</h2>
       <div v-html="description" />
       <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :nickname="item.nickname" :label="item.label" :option-key="index" :model-value="item.modelValue" :default-value="item.defaultValue" @propDefaultValue="propDefaultValue" />
@@ -45,14 +45,15 @@ export default {
       items: [],
       title: '',
       description: '',
-      inActiveTime: 0,
       submitID: '',
       countvo: {},
       submitAddress: '',
       jobNo: '',
       realName: '',
       appId: 'GSZDIv6rmA8d2LujhLa30g2',
-      code: ''
+      code: '',
+      inActiveTime: 0,
+      clearTimeSet: null
     }
   },
   created() {
@@ -78,7 +79,19 @@ export default {
     this.viewCount()
     console.log(this.jsonData)
   },
+  mounted() {
+    this.setTime() // 页面加载完成后开始计时
+  },
+  beforeDestroy() {
+    clearInterval(this.clearTimeSet)
+  },
   methods: {
+    setTime() {
+      // 设置定时器
+      this.clearTimeSet = setInterval(() => {
+        this.inActiveTime++
+      }, 1000)
+    },
     getInfo(id) {
       formApi.getFormItemById(id).then(res => {
         this.items = JSON.parse(res.data.formItem.item)
@@ -99,9 +112,8 @@ export default {
       })
     },
     handleGetData() {
-      const inActiveTime = document.getElementById('inActiveTime').innerText
       this.jsonData['submitOs'] = ua.os.name
-      this.jsonData['completeTime'] = inActiveTime
+      this.jsonData['completeTime'] = this.inActiveTime
       this.jsonData['createBy'] = this.submitID
       this.jsonData['submitAddress'] = this.submitAddress
       this.formvo['data'] = JSON.stringify(this.jsonData)

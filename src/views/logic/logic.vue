@@ -153,7 +153,7 @@ export default {
       this.component = component
       this.defaultRadioOp = defaultRadioOp
       this.index = index
-      if (nickname) {
+      if (nickname && nickname !== 'q0') {
         this.nickname = nickname
       } else {
         this.nickname = 'q' + (index + 1)
@@ -161,6 +161,9 @@ export default {
       }
     },
     changeNickname(nickname) {
+      if (!nickname) {
+        this.items[this.index].nickname = 'q0'
+      }
       this.items[this.index].nickname = nickname
       // console.log(this.items[this.index])
     },
