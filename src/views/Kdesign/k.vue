@@ -305,6 +305,22 @@ export default {
         })
       }
     },
+    goToStatistics() {
+      if (!this.formId) {
+        this.jsonList = JSON.stringify(this.items)
+        this.formvo.title = this.title
+        this.formvo.description = this.description
+        this.formvo.values = this.jsonList
+        formApi.addForm(this.formvo).then(res => {
+          this.formId = res.data.formItem.formId
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.$router.push({ path: '/statistics/', query: { id: res.data.formItem.formId }})
+        })
+      }
+    },
     saveForm(values) {
       this.formvo.title = this.title
       this.formvo.description = this.description

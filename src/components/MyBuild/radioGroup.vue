@@ -2,7 +2,7 @@
   <div style="padding:11px" class="zujian">
     <p>{{ label }}</p>
     <el-radio-group v-model="defaultValueHere">
-      <el-radio v-for="(item, index) in radioList" :key="index" :label="item.radioValue + ''" @change="propDefaultValue(item.radioValue, item.score)">{{ item.radioLabel }}</el-radio>
+      <el-radio v-for="(item, index) in radioList" :key="index" :label="item.radioValue + ''" style="padding-bottom: 11px;" @change="propDefaultValue(item.radioValue, item.score)">{{ item.radioLabel }}</el-radio>
     </el-radio-group>
   </div>
 </template>

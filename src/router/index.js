@@ -49,11 +49,15 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/statistics',
+    component: () => import('@/views/statistics/statistics'),
+    hidden: true
+  },
+  {
     path: '/edit/:id',
     component: () => import('@/views/Kdesign/k'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),

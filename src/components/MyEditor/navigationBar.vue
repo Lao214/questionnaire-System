@@ -13,7 +13,7 @@
         <li style="--t:40%;"><a @click="goToData()"><i class="el-icon-s-platform" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="统计" placement="right">
-        <li style="--t:50%;"><a><i class="el-icon-s-data" aria-hidden="true" /></a></li>
+        <li style="--t:50%;"><a @click="goToStatistics()"><i class="el-icon-s-data" aria-hidden="true" /></a></li>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="逻辑" placement="right">
         <li style="--t:60%;"><a @click="goToLogic()"><i class="el-icon-s-promotion" aria-hidden="true" /></a></li>
@@ -79,6 +79,15 @@ export default {
     },
     goBackTable() {
       this.$router.push({ path: '/forms/list' })
+    },
+    goToStatistics() {
+      if (this.$route.params && this.$route.params.id) {
+        this.$router.push({ path: '/statistics/', query: { id: this.$route.params.id }})
+      } else if (this.$route.query && this.$route.query.id) {
+        this.$router.push({ path: '/statistics/', query: { id: this.$route.query.id }})
+      } else {
+        this.$emit('goToStatistics')
+      }
     }
   }
 }

@@ -50,5 +50,12 @@ export default {
       url: '/webApi/form/getByFormId/' + id,
       method: 'get'
     })
+  },
+  viewCount(formvo) {
+    return request({
+      url: '/webApi/form/viewCount',
+      method: 'post',
+      data: formvo
+    })
   }
 }
