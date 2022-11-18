@@ -50,7 +50,7 @@ export const constantRoutes = [
   },
   {
     path: '/statistics',
-    component: () => import('@/views/statistics/statistics'),
+    component: () => import('@/views/statistics/index'),
     hidden: true
   },
   {
