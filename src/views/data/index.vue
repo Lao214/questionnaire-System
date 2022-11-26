@@ -38,11 +38,15 @@
       <el-col :span="22">
         <div style="margin-top: 20px;" />
         <div class="container">
-          <el-table :data="list" :header-cell-style="{ 'font-size': '16px', color: '#1192ac' }" :cell-style="{ height: '44px', padding: '0px' }" style="width: 100%" max-height="550" border small>
-            <div v-for="(item, key) in list[0]" :key="item.id">
-              <el-table-column :label="key === 'createTime' ? '创建时间': key" :prop="key" />
+          <div class="outer">
+            <div class="inter">
+              <el-table :data="list" :header-cell-style="{ 'font-size': '16px', color: '#1192ac' }" :cell-style="{ height: '44px', padding: '0px' }" style="width: 100%" max-height="550" border small>
+                <div v-for="(item, key) in headers" :key="key">
+                  <el-table-column :label="item === 'createTime' ? '创建时间': item && item === 'jobNo' ? '工号':item && item === 'submitAddress' ? '提交地址':item && item === 'area' ? '区域':item && item === 'sex' ? '性别':item && item === 'submitOs' ? '提交设备':item" :prop="item" />
+                </div>
+              </el-table>
             </div>
-          </el-table>
+          </div>
         </div>
         <el-pagination :current-page="page" :page-size="limit" :total="total" style="padding:30px 0; text-align:center;" layout="total,prev,pager,next,jumper" @current-change="getList" />
       </el-col>
@@ -87,13 +91,11 @@ export default {
     getList(page = 1) {
       this.page = page
       formDataApi.getFormDataList(this.page, this.limit, this.formQuery).then(res => {
-        this.headers = Object.keys(res.data.map[0])
-        console.log(this.headers)
+        this.headers = res.data.header
         this.list = res.data.map
-        this.total = res.data.total
+        // console.log(this.headers)
         // console.log(this.list)
-        // console.log(this.list[0])
-        // console.log(this.list[0].单选框杰克苏)
+        this.total = res.data.total
       }).catch(error => {
         console.log(error)
       })
@@ -104,3 +106,14 @@ export default {
   }
 }
 </script>
+
+<style>
+  .outer {
+    width: 200vh;
+    overflow-x: scroll;
+  }
+  .inter {
+    height: 100%;
+    width: 400vh;
+  }
+</style>

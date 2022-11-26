@@ -59,12 +59,13 @@ export default {
   created() {
     this.jsonData.source = '其他'
     /* 富宝数据begin */
-    // this.jobNo = this.$store.getters['index/username']
+    this.jobNo = this.$store.getters['index/username']
     // this.realName = this.$store.getters['index/realname']
     if (this.$store.getters['index/username']) {
       this.jsonData.source = '富学宝典'
       this.jsonData.realname = this.$store.getters['index/realname']
       this.jsonData.jobNo = this.$store.getters['index/username']
+      this.viewCount()
     }
     /* 富宝数据end */
     /* 相信数据begin*/
@@ -73,11 +74,13 @@ export default {
       this.getUserInfoByBelieve()
     }
     /* 相信数据end*/
+    if (!this.$store.getters['index/username'] && !this.code) {
+      this.viewCount()
+    }
     this.formId = this.$route.query.id
     this.getInfo(this.formId)
     this.getTitle(this.formId)
-    this.viewCount()
-    console.log(this.jsonData)
+    // console.log(this.jsonData)
   },
   mounted() {
     this.setTime() // 页面加载完成后开始计时
@@ -132,31 +135,24 @@ export default {
       this.jsonData[modelValue] = value
       this.scoreData[nickname] = score
     },
-    viewCount() {
-      this.countvo.ua = JSON.stringify(ua)
-      this.countvo.id = this.$route.query.id
-      this.countvo.jobNo = this.jobNo
-      formApi.viewCount(this.countvo).then(res => {
-        this.submitAddress = res.data.submitAddress
-        this.submitID = res.data.submitID
-      })
-    },
     getUserInfoByBelieve() {
       believeApi.getUserInfoByBelieve('code=' + this.code + '&appid=' + this.appId).then(res => {
-        if (res.exception_code === '504') {
-          this.$message({ message: res.msg, type: 'error' })
-          // 相信的 本地测试oauth地址
-          // window.location.href = 'http://civetinterface.foxconn.com/Open/oauth/?appid=GSZDIv6rmA8d2LujhLa30g2&redirect_uri=http%3a%2f%2flocalhost%3a8080%2fs%2f' + this.formKey + '&scope=snsapi_userinfo'
-          // 域名的 oauth地址
-          window.location.href = 'http://civetinterface.foxconn.com/Open/oauth/?to_code=' + this.formId
-        }
+        // if (res.exception_code === '504') {
+        //   this.$message({ message: res.msg, type: 'error' })
+        //   // 相信的 本地测试oauth地址
+        //   // http://civetinterface.foxconn.com/Open/oauth/?appid=GSZDIv6rmA8d2LujhLa30g2&redirect_uri=http%3a%2f%2f43.139.110.41%3a81%2f%23%2fbuild%3fid%3d1591227933773537281&scope=snsapi_userinfo
+        //   // 域名的 oauth地址
+        //   // window.location.href = 'http://civetinterface.foxconn.com/Open/oauth/?to_code=' + this.formId
+        //   window.location.href ='http://civetinterface.foxconn.com/Open/oauth/?appid=GSZDIv6rmA8d2LujhLa30g2&redirect_uri=http%3a%2f%2f43.139.110.41%3a81%2f%23%2fbuild%3fid%3d' + this.formId + '&scope=snsapi_userinfo'
+        // }
         console.log(res)
+        this.jobNo = res.civetno
         this.jsonData.area = res.area
         this.jsonData.bg = res.bg
         this.jsonData.bu = res.bu
         this.jsonData.fromPC = res.from_pc
         this.jsonData.grade = res.grade
-        this.jsonData.gradeDepart = res.gradeDepart
+        this.jsonData.gradeDepart = res.grade_depart
         this.jsonData.hrtype = res.hrtype
         this.jsonData.isSubscriber = res.is_subscriber
         this.jsonData.jobNo = res.civetno
@@ -164,7 +160,20 @@ export default {
         this.jsonData.sex = res.sex
         this.jsonData.sign = res.sign
         this.jsonData.unit = res.unit
+        this.jsonData.realname = res.realname
         this.jsonData.source = '相信'
+        this.viewCount()
+      })
+    },
+    viewCount() {
+      this.countvo.ua = JSON.stringify(ua)
+      this.countvo.id = this.$route.query.id
+      this.countvo.jobNo = this.jobNo
+      formApi.viewCount(this.countvo).then(res => {
+        this.submitAddress = res.data.submitAddress
+        this.submitID = res.data.submitID
+        console.log(this.submitID)
+        console.log('thisview' + this.jobNo)
       })
     }
   }
