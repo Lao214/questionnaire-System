@@ -123,12 +123,18 @@ export default {
       this.formvo['scoreJSON'] = JSON.stringify(this.scoreData)
       this.formvo['id'] = this.formId
       this.formvo['title'] = this.title
-      console.log(this.formvo)
+      // console.log(this.formvo)
       formDataApi.postFormData(this.formvo).then(res => {
         this.$message({
           type: 'success',
           message: '提交成功!'
         })
+        if (res.code === 200 && window.innerWidth > 840) {
+          console.log(res.data.resultStr)
+          this.$router.push({ path: '/evaluatePC', query: { id: this.formId, result: JSON.stringify(res.data.resultStr) }})
+        } else if (res.code === 200 && window.innerWidth <= 840) {
+          this.$router.push({ path: '/evaluatePhone', query: { id: this.formId, result: JSON.stringify(res.data.resultStr) }})
+        }
       })
     },
     propDefaultValue(modelValue, value, score, nickname) {
@@ -173,7 +179,7 @@ export default {
         this.submitAddress = res.data.submitAddress
         this.submitID = res.data.submitID
         console.log(this.submitID)
-        console.log('thisview' + this.jobNo)
+        console.log('thisview，工号' + this.jobNo)
       })
     }
   }

@@ -34,6 +34,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/evaluatePC',
+    component: () => import('@/views/evaluate/evaluate'),
+    hidden: true
+  },
+  {
     path: '/kndex',
     component: () => import('@/views/Kdesign/k'),
     hidden: true

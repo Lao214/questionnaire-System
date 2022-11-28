@@ -38,8 +38,8 @@
       <el-col :span="22">
         <div style="margin-top: 20px;" />
         <div class="container">
-          <div class="outer">
-            <div class="inter">
+          <div class="outers">
+            <div class="inters">
               <el-table :data="list" :header-cell-style="{ 'font-size': '16px', color: '#1192ac' }" :cell-style="{ height: '44px', padding: '0px' }" style="width: 100%" max-height="550" border small>
                 <div v-for="(item, key) in headers" :key="key">
                   <el-table-column :label="item === 'createTime' ? '创建时间': item && item === 'jobNo' ? '工号':item && item === 'submitAddress' ? '提交地址':item && item === 'area' ? '区域':item && item === 'sex' ? '性别':item && item === 'submitOs' ? '提交设备':item" :prop="item" />
@@ -91,10 +91,19 @@ export default {
     getList(page = 1) {
       this.page = page
       formDataApi.getFormDataList(this.page, this.limit, this.formQuery).then(res => {
-        this.headers = res.data.header
-        this.list = res.data.map
+        // this.headers = res.data.header
         // console.log(this.headers)
-        // console.log(this.list)
+        // this.headers = Object.keys(res.data.map[0])
+        this.list = res.data.map
+        for (var i = 0; i < this.list.length - 1; i++) {
+          if (Object.keys(this.list[i]).length > Object.keys(this.list[i + 1]).length) {
+            this.headers = Object.keys(res.data.map[i])
+          } else {
+            this.headers = Object.keys(res.data.map[i + 1])
+          }
+        }
+        console.log(this.headers)
+        console.log(this.list)
         this.total = res.data.total
       }).catch(error => {
         console.log(error)
@@ -107,12 +116,12 @@ export default {
 }
 </script>
 
-<style>
-  .outer {
+<style scoped>
+  .outers {
     width: 200vh;
     overflow-x: scroll;
   }
-  .inter {
+  .inters {
     height: 100%;
     width: 400vh;
   }
