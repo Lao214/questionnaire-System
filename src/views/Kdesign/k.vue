@@ -32,7 +32,11 @@
               <el-row style="padding:11px" class="editor">
                 <weditor :result-text-parent="description" @wangEditorChange="wangEditorChange" />
               </el-row>
-              <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :default-value="item.defaultValue" @callBack="callBack" @propDefaultValue="propDefaultValue" @delCallBack="delCallBack" />
+              <draggable v-model="items"  chosenClass="chosen" forceFallback="true" group="people" animation="1000" @start="onStart" @end="onEnd">
+                <transition-group>
+                  <component :is="item.component" v-for="(item, index) in items" :key="index" :max="item.max" :min="item.min" :step="item.step" :radio-list="item.defaultRadioOp" :text="item.text" :label="item.label" :option-key="index" :default-value="item.defaultValue" @callBack="callBack" @propDefaultValue="propDefaultValue" @delCallBack="delCallBack" />
+                </transition-group>
+              </draggable>
             </div>
           </div>
         </div>
@@ -89,6 +93,7 @@ import divider from '../../components/MyEditor/divider.vue'
 import formApi from '@/api/form/form'
 import myInput from '../../components/MyEditor/myInput.vue'
 import navigationBar from '../../components/MyEditor/navigationBar.vue'
+import draggable from 'vuedraggable'
 
 export default {
   components: {
@@ -98,7 +103,8 @@ export default {
     imageShow,
     divider,
     myInput,
-    navigationBar
+    navigationBar,
+    draggable
   },
   data() {
     return {
@@ -122,7 +128,8 @@ export default {
       sliderStep: 1,
       formId: '',
       formvo: {},
-      jsonList: {}
+      jsonList: {},
+      drag:false
     }
   },
   created() {
@@ -362,12 +369,32 @@ export default {
           this.description = res.data.form.description
         })
       })
+    }, 
+    //开始拖拽事件
+    onStart(){
+      this.drag = true;
+    },
+    //拖拽结束事件
+    onEnd() {
+      this.drag = false;
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+ /*被拖拽对象的样式*/
+.item {
+  padding: 6px;
+  background-color: #fdfdfd;
+  border: solid 1px #eee;
+  margin-bottom: 10px;
+  cursor: move;
+} 
+  /*选中样式*/
+.chosen {
+  border: solid 2px #3089dc !important;
+}
   .toolbar{
     margin:11px 17px 2px 17px;
     font-size: 1rem;

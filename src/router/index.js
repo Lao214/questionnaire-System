@@ -81,16 +81,6 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-
-    ]
-  },
 
   {
     path: '/forms',
@@ -103,19 +93,6 @@ export const constantRoutes = [
         name: 'DesignList',
         component: () => import('@/views/Kdesign/list'),
         meta: { title: '列表', icon: 'table' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
       }
     ]
   },
