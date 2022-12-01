@@ -12,7 +12,7 @@ import circleScore from '@/components/realEvaluatePC/circle.vue'
 import progressScore from '@/components/realEvaluatePC/progress.vue'
 import dividerScore from '@/components/realEvaluatePC/divider.vue'
 import grid from '@/components/realEvaluatePC/grid.vue'
-import editorTextScore from '@/components/myEvaluatePC/editorText.vue'
+import editorTextScore from '@/components/realEvaluatePC/editorText.vue'
 import imageShow from '@/components/realEvaluatePC/imageShow.vue'
 
 export default {

@@ -91,19 +91,17 @@ export default {
     getList(page = 1) {
       this.page = page
       formDataApi.getFormDataList(this.page, this.limit, this.formQuery).then(res => {
-        // this.headers = res.data.header
-        // console.log(this.headers)
-        // this.headers = Object.keys(res.data.map[0])
         this.list = res.data.map
         for (var i = 0; i < this.list.length - 1; i++) {
           if (Object.keys(this.list[i]).length > Object.keys(this.list[i + 1]).length) {
-            this.headers = Object.keys(res.data.map[i])
-          } else {
-            this.headers = Object.keys(res.data.map[i + 1])
+            this.headers = Object.keys(this.list[i])
+            // console.log(this.headers)
+          } else if (Object.keys(this.list[i]).length < Object.keys(this.list[i + 1]).length) {
+            this.headers = Object.keys(this.list[i + 1])
+            // console.log(this.headers)
           }
+          // console.log(Object.keys(this.list[i]).length)
         }
-        console.log(this.headers)
-        console.log(this.list)
         this.total = res.data.total
       }).catch(error => {
         console.log(error)

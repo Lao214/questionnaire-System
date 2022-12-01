@@ -1,10 +1,16 @@
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
+  <div>
+    <section>
+      <div class="wave">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
+      <div class="content">
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+        <div class="title-container">
+          <h3 class="title">Login Form</h3>
+        </div>
 
       <el-form-item prop="username">
         <span class="svg-container">
@@ -41,15 +47,13 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
+      <el-button class="el-button--goon" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
     </el-form>
+      </div>
+    </section>
+    <div class="login-container">
   </div>
+</div>
 </template>
 
 <script>
@@ -125,13 +129,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$bg:#cccccc;
+$light_gray:rgb(19, 118, 118);
+$cursor: rgb(231, 231, 231);
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -173,35 +177,18 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg:#e9e9e9;
+$dark_gray:#c6deeb;
+$light_gray:lightseagreen;
 
-.login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
-  overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 40px 35px 0;
     margin: 0 auto;
     overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
+    // border: lightseagreen 1px solid;
   }
 
   .svg-container {
@@ -218,7 +205,7 @@ $light_gray:#eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 30px auto;
       text-align: center;
       font-weight: bold;
     }
@@ -233,5 +220,97 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+
+/* 按钮风格重定义 */
+.el-button--goon {
+  color: #ffffff;
+  background-color: #13c2c2;
+  border-color: #13c2c2;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 20px;
 }
+.el-button--goon:focus,
+.el-button--goon:hover {
+  color: rgb(245, 245, 245);
+  background-color: #0e9a9a;
+  border-color: #0e9a9a;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 20px;
+}
+.el-button--goon:active {
+  color:  #ffffff;
+  background-color: #13c2c2;
+  border-color: #13c2c2;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 20px;
+}
+/* 按钮风格重定义 */
+</style>
+
+<style scoped>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+section{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+section .wave{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: lightseagreen;
+}
+
+section .wave span{
+  position: absolute;
+  width: 325vh;
+  height: 325vh;
+  top:0;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  background: rgb(255, 255, 255);
+}
+section .wave span:nth-child(1) {
+  animation: animate 5s linear infinite;
+  border-radius: 45%;
+  background:rgb(28, 211, 202) ;
+}
+section .wave span:nth-child(2) {
+  animation: animate 10s linear infinite;
+  border-radius: 40%;
+  background: rgb(0, 125, 119);
+}
+section .wave span:nth-child(3) {
+  animation: animate 15s linear infinite;
+  border-radius: 42.5%;
+  background: rgb(255, 255, 255);
+}
+
+@keyframes animate{
+  0%{
+    transform: translate(-50%, -75%) rotate(0deg);
+  }
+  100%{
+    transform: translate(-50%, -75%) rotate(360deg);
+  }
+}
+section .content{
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 3em;
+    }
 </style>

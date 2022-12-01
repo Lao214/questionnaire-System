@@ -22,9 +22,9 @@
           <el-button class="el-button--goon" style="width: 140px;height:37px;position: absolute;top: 50%;right: 45%;font-weight: 600;" @click="publish()">发布</el-button>
         </div>
         <div v-if="formStatus === 1">
-          <div class="demo-image" style="height:37px;position: absolute;top: 40%;right: 60%;">
+          <!-- <div class="demo-image" style="height:37px;position: absolute;top: 40%;right: 60%;">
             <el-image style="width: 200px;height: 200px" :src="url" />
-          </div>
+          </div> -->
           <!-- <p style="height:37px;position: absolute;top: 60%;right: 35%;">{{ address }}</p> -->
           <p style="height:37px;position: absolute;top: 55%;right: 35%;">{{ address }}</p>
           <el-button class="el-button--goon" style="width: 140px;height:37px;position: absolute;top: 50%;right: 42%;font-weight: 600;" @click="publish()">停止发布</el-button>
@@ -46,7 +46,7 @@ export default {
     return {
       address: '',
       fits: ['cover'],
-      url: 'http://localhost:9700/webApi/form/qrCode/',
+      // url: 'http://localhost:9700/webApi/form/qrCode/',
       formStatus: 0,
       formId: ''
     }

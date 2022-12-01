@@ -9,7 +9,7 @@
     <div style="padding:0px 0px 2rem 0 ;">
       <el-button class="el-button--goon" style="display:block;margin:0 auto;" @click="handleGetData">提 交</el-button>
     </div>
-    <p>&nbsp;</p>
+    <p>&nbsp;</p> 
   </div>
 </template>
 
@@ -60,23 +60,22 @@ export default {
     this.jsonData.source = '其他'
     /* 富宝数据begin */
     this.jobNo = this.$store.getters['index/username']
-    // this.realName = this.$store.getters['index/realname']
     if (this.$store.getters['index/username']) {
       this.jsonData.source = '富学宝典'
       this.jsonData.realname = this.$store.getters['index/realname']
       this.jsonData.jobNo = this.$store.getters['index/username']
-      this.viewCount()
+      
     }
     /* 富宝数据end */
-    /* 相信数据begin*/
+    /* 相信数据begin */
     this.code = this.$route.query.code
     if (this.code) {
       this.getUserInfoByBelieve()
     }
-    /* 相信数据end*/
-    if (!this.$store.getters['index/username'] && !this.code) {
-      this.viewCount()
-    }
+    /* 相信数据end */
+    // if (!this.$store.getters['index/username'] && !this.code) {
+      
+    // }
     this.formId = this.$route.query.id
     this.getInfo(this.formId)
     this.getTitle(this.formId)
@@ -117,8 +116,6 @@ export default {
     handleGetData() {
       this.jsonData['submitOs'] = ua.os.name
       this.jsonData['completeTime'] = this.inActiveTime
-      this.jsonData['createBy'] = this.submitID
-      this.jsonData['submitAddress'] = this.submitAddress
       this.formvo['data'] = JSON.stringify(this.jsonData)
       this.formvo['scoreJSON'] = JSON.stringify(this.scoreData)
       this.formvo['id'] = this.formId
@@ -168,20 +165,23 @@ export default {
         this.jsonData.unit = res.unit
         this.jsonData.realname = res.realname
         this.jsonData.source = '相信'
-        this.viewCount()
       })
     },
-    viewCount() {
-      this.countvo.ua = JSON.stringify(ua)
-      this.countvo.id = this.$route.query.id
-      this.countvo.jobNo = this.jobNo
-      formApi.viewCount(this.countvo).then(res => {
-        this.submitAddress = res.data.submitAddress
-        this.submitID = res.data.submitID
-        console.log(this.submitID)
-        console.log('thisview，工号' + this.jobNo)
-      })
-    }
+    // viewCount() {
+    //   this.countvo.ua = ua.ua
+    //   console.log(ua)
+    //   console.log(ua.browser.name)
+    //   console.log(ua.os.name)
+    //   console.log(ua.os.version)
+    //   this.countvo.id = this.$route.query.id
+    //   this.countvo.jobNo = this.jobNo
+    //   formApi.viewCount(this.countvo).then(res => {
+    //     this.submitAddress = res.data.submitAddress
+    //     this.submitID = res.data.submitID
+    //     console.log(this.submitID)
+    //     console.log('thisview，工号' + this.jobNo)
+    //   })
+    // }
   }
 }
 </script>

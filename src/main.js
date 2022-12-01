@@ -13,6 +13,9 @@ import '@/permission' // permission control
 import formatDate from '@/utils/formatDate.js'
 Vue.prototype.$formatDate = formatDate
 
+import hasBtnPermission from '@/utils/btn-permission'
+Vue.prototype.$hasBP = hasBtnPermission
+
 // mock数据
 // if (process.env.NODE_ENV === 'production') {
 //   const { mockXHR } = require('../mock')

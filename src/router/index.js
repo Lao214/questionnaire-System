@@ -63,11 +63,11 @@ export const constantRoutes = [
     component: () => import('@/views/Kdesign/k'),
     hidden: true
   },
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
+  // {
+  //   path: '/404',
+  //   component: () => import('@/views/404'),
+  //   hidden: true
+  // },
 
   {
     path: '/',
@@ -81,24 +81,23 @@ export const constantRoutes = [
     }]
   },
 
-
-  {
-    path: '/forms',
-    component: Layout,
-    name: '表单',
-    meta: { title: '表单', icon: 'form' },
-    children: [
-      {
-        path: 'list',
-        name: 'DesignList',
-        component: () => import('@/views/Kdesign/list'),
-        meta: { title: '列表', icon: 'table' }
-      }
-    ]
-  },
+  // {
+  //   path: '/forms',
+  //   component: Layout,
+  //   name: '表单',
+  //   meta: { title: '表单', icon: 'form' },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       name: 'DesignList',
+  //       component: () => import('@/views/Kdesign/list'),
+  //       meta: { title: '列表', icon: 'table' }
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

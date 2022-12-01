@@ -15,7 +15,7 @@
                   <div class="inter">
                     <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>标签：</span><el-input v-model="label" style="width: 70%;" disabled /></el-row>
                     <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>数据字段：</span><el-input v-model="modelValue" style="width: 70%;" disabled /></el-row>
-                    <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>别名：</span><el-input v-model="nickname" style="width: 70%;" @input="changeNickname(nickname)" @change="changeNickname(nickname)" /></el-row>
+                    <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>别名：</span><el-input v-model="nickname" style="width: 70%;" @input="changeNickname(nickname)" @change="changeNickname(nickname)" disabled  /></el-row>
                     <el-row style="padding:11px;display:flex;justify-content:center;line-height:3rem;"><el-button @click="addValue()">加入该选项进行计算</el-button></el-row>
                     <!--radio选框的options begin-->
                     <div v-if="component === 'radioGroup'" style="padding:7px">
@@ -69,6 +69,16 @@
                   <el-button type="warning" circle @click="addOperator(4)">{{ operator[4] }}</el-button>
                   <el-button type="danger" circle @click="addOperator(5)">{{ operator[5] }}</el-button>
                   <el-button type="info" circle @click="addOperator(6)">{{ operator[6] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(7)">{{ operator[7] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(8)">{{ operator[8] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(9)">{{ operator[9] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(10)">{{ operator[10] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(11)">{{ operator[11] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(12)">{{ operator[12] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(13)">{{ operator[13] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(14)">{{ operator[14] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(15)">{{ operator[15] }}</el-button>
+                  <el-button type="primary" circle @click="addOperator(16)">{{ operator[16] }}</el-button>
                 </el-row>
                 <el-divider />
                 <p style="text-align:center;font-weight: 600;">结果集</p>
@@ -113,7 +123,7 @@ export default {
       component: '',
       defaultRadioOp: [],
       nickname: '',
-      operator: ['(', ')', '+', '-', 'x', '÷', '='],
+      operator: ['(', ')', '+', '-', 'x', '÷', '=','0','1','2','3','4','5','6','7','8','9'],
       result: [],
       formula: '',
       formvo: {},
@@ -157,6 +167,9 @@ export default {
         this.nickname = nickname
       } else {
         this.nickname = 'q' + (index + 1)
+        if (index+1 >= 10 ) {
+          this.nickname = 's' + (index + 1)
+        }
         this.items[this.index].nickname = this.nickname
       }
     },
