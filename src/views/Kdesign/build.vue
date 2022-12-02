@@ -64,7 +64,7 @@ export default {
       this.jsonData.source = '富学宝典'
       this.jsonData.realname = this.$store.getters['index/realname']
       this.jsonData.jobNo = this.$store.getters['index/username']
-      
+      // this.viewCount()
     }
     /* 富宝数据end */
     /* 相信数据begin */
@@ -73,13 +73,14 @@ export default {
       this.getUserInfoByBelieve()
     }
     /* 相信数据end */
+    /* 其他 begin*/
     // if (!this.$store.getters['index/username'] && !this.code) {
-      
+    //   this.viewCount()
     // }
+    /* 其他 end*/
     this.formId = this.$route.query.id
     this.getInfo(this.formId)
-    this.getTitle(this.formId)
-    // console.log(this.jsonData)
+    // this.getTitle(this.formId)
   },
   mounted() {
     this.setTime() // 页面加载完成后开始计时
@@ -97,7 +98,11 @@ export default {
     getInfo(id) {
       formApi.getFormItemById(id).then(res => {
         this.items = JSON.parse(res.data.formItem.item)
-        // console.log(this.items)
+        this.title = res.data.formItem.name
+        this.description = res.data.formItem.description
+        this.jsonData['formId'] = id
+        this.jsonData['createTime'] = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+        console.log(this.items)
         for (var i = 0; i < this.items.length; i++) {
           if (this.items[i].component === 'radioGroup' && this.items[i].component === 'slider' && this.items[i].component === 'myInput') {
             this.jsonData[this.items[i].modelValue] = this.items[i].defaultValue
@@ -105,14 +110,14 @@ export default {
         }
       })
     },
-    getTitle(id) {
-      formApi.getFormById(id).then(res => {
-        this.title = res.data.form.name
-        this.description = res.data.form.description
-        this.jsonData['formId'] = id
-        this.jsonData['createTime'] = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
-      })
-    },
+    // getTitle(id) {
+    //   formApi.getFormById(id).then(res => {
+    //     this.title = res.data.form.name
+    //     this.description = res.data.form.description
+    //     this.jsonData['formId'] = id
+    //     this.jsonData['createTime'] = this.$formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+    //   })
+    // },
     handleGetData() {
       this.jsonData['submitOs'] = ua.os.name
       this.jsonData['completeTime'] = this.inActiveTime
@@ -153,11 +158,9 @@ export default {
         this.jsonData.area = res.area
         this.jsonData.bg = res.bg
         this.jsonData.bu = res.bu
-        this.jsonData.fromPC = res.from_pc
         this.jsonData.grade = res.grade
         this.jsonData.gradeDepart = res.grade_depart
         this.jsonData.hrtype = res.hrtype
-        this.jsonData.isSubscriber = res.is_subscriber
         this.jsonData.jobNo = res.civetno
         this.jsonData.serviceno = res.serviceno
         this.jsonData.sex = res.sex
@@ -165,23 +168,22 @@ export default {
         this.jsonData.unit = res.unit
         this.jsonData.realname = res.realname
         this.jsonData.source = '相信'
+        // this.viewCount()
       })
     },
-    // viewCount() {
-    //   this.countvo.ua = ua.ua
-    //   console.log(ua)
-    //   console.log(ua.browser.name)
-    //   console.log(ua.os.name)
-    //   console.log(ua.os.version)
-    //   this.countvo.id = this.$route.query.id
-    //   this.countvo.jobNo = this.jobNo
-    //   formApi.viewCount(this.countvo).then(res => {
-    //     this.submitAddress = res.data.submitAddress
-    //     this.submitID = res.data.submitID
-    //     console.log(this.submitID)
-    //     console.log('thisview，工号' + this.jobNo)
-    //   })
-    // }
+    viewCount() {
+      this.countvo.ua = ua.ua
+      this.countvo.id = this.$route.query.id
+      this.countvo.jobNo = this.jobNo
+      formApi.viewCount(this.countvo).then(res => {
+        this.submitAddress = res.data.submitAddress
+        this.submitID = res.data.submitID
+        this.jsonData['createBy'] = es.data.submitID
+        this.jsonData['submitAddress'] = res.data.submitAddress
+        console.log(this.submitID)
+        console.log('thisview，工号' + this.jobNo)
+      })
+    }
   }
 }
 </script>

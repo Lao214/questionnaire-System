@@ -15,7 +15,7 @@
                   <div class="inter">
                     <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>标签：</span><el-input v-model="label" style="width: 70%;" disabled /></el-row>
                     <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>数据字段：</span><el-input v-model="modelValue" style="width: 70%;" disabled /></el-row>
-                    <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>别名：</span><el-input v-model="nickname" style="width: 70%;" @input="changeNickname(nickname)" @change="changeNickname(nickname)" disabled  /></el-row>
+                    <el-row style="padding:11px;display:flex;justify-content:end;line-height:3rem;"><span>别名：</span><el-input v-model="nickname" style="width: 70%;" disabled @input="changeNickname(nickname)" @change="changeNickname(nickname)" /></el-row>
                     <el-row style="padding:11px;display:flex;justify-content:center;line-height:3rem;"><el-button @click="addValue()">加入该选项进行计算</el-button></el-row>
                     <!--radio选框的options begin-->
                     <div v-if="component === 'radioGroup'" style="padding:7px">
@@ -92,11 +92,11 @@
           <el-row>
             <el-col :span="24" style="height: 30vh;">
               <div class="grid-content bg-purple-dark">
-                <div>
-                  <el-tag v-for="(item, index) in items" :key="index" effect="dark" type="info" class="tags" color="rgba(185, 202, 202, 0.639)" @click="showOption(item.label, item.modelValue, item.component, item.defaultRadioOp, item.nickname, index)">
-                    <span v-if="item.component === 'radioGroup' || item.component === 'slider'">{{ item.label }}</span>
+                <a v-for="(item, index) in items" :key="index">
+                  <el-tag v-if="item.component === 'radioGroup' || item.component === 'slider'" effect="dark" type="info" class="tags" color="rgba(185, 202, 202, 0.639)" @click="showOption(item.label, item.modelValue, item.component, item.defaultRadioOp, item.nickname, index)">
+                    <span>{{ item.label }}</span>
                   </el-tag>
-                </div>
+                </a>
               </div>
             </el-col>
           </el-row>
@@ -123,7 +123,7 @@ export default {
       component: '',
       defaultRadioOp: [],
       nickname: '',
-      operator: ['(', ')', '+', '-', 'x', '÷', '=','0','1','2','3','4','5','6','7','8','9'],
+      operator: ['(', ')', '+', '-', 'x', '÷', '=', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       result: [],
       formula: '',
       formvo: {},
@@ -167,7 +167,7 @@ export default {
         this.nickname = nickname
       } else {
         this.nickname = 'q' + (index + 1)
-        if (index+1 >= 10 ) {
+        if (index + 1 >= 10) {
           this.nickname = 's' + (index + 1)
         }
         this.items[this.index].nickname = this.nickname
