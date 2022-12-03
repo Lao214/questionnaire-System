@@ -138,12 +138,12 @@ export default {
   methods: {
     addRadio(name, label, defaultValue, require, defaultRadioOp) {
       var date = new Date().getTime()
-      console.log(date)
+      // console.log(date)
       this.items.push({
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: name + date,
+        modelValue: date,
         require: require,
         defaultRadioOp: defaultRadioOp,
         nickname: 'q0',
@@ -152,23 +152,23 @@ export default {
     },
     add(name, label, defaultValue, require) {
       var date = new Date().getTime()
-      console.log(date)
+      // console.log(date)
       this.items.push({
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: name + date,
+        modelValue: date,
         require: require
       })
     },
     addSlider(name, label, defaultValue, require, max, min, step) {
       var date = new Date().getTime()
-      console.log(date)
+      // console.log(date)
       this.items.push({
         component: name,
         label: label,
         defaultValue: defaultValue,
-        modelValue: name + date,
+        modelValue: date,
         require: require,
         max: max,
         min: min,
@@ -363,10 +363,10 @@ export default {
     getInfo(id) {
       formApi.getFormItemById(id).then(res => {
         this.items = JSON.parse(res.data.formItem.item)
+        this.description = res.data.formItem.description
         console.log(this.items)
         formApi.getFormById(id).then(res => {
           this.title = res.data.form.name
-          this.description = res.data.form.description
         })
       })
     }, 

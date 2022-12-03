@@ -64,7 +64,7 @@ export default {
       this.jsonData.source = '富学宝典'
       this.jsonData.realname = this.$store.getters['index/realname']
       this.jsonData.jobNo = this.$store.getters['index/username']
-      // this.viewCount()
+      this.viewCount()
     }
     /* 富宝数据end */
     /* 相信数据begin */
@@ -74,9 +74,9 @@ export default {
     }
     /* 相信数据end */
     /* 其他 begin*/
-    // if (!this.$store.getters['index/username'] && !this.code) {
-    //   this.viewCount()
-    // }
+    if (!this.$store.getters['index/username'] && !this.code) {
+      this.viewCount()
+    }
     /* 其他 end*/
     this.formId = this.$route.query.id
     this.getInfo(this.formId)
@@ -132,7 +132,7 @@ export default {
           message: '提交成功!'
         })
         if (res.code === 200 && window.innerWidth > 840) {
-          console.log(res.data.resultStr)
+          // console.log(res.data.resultStr)
           this.$router.push({ path: '/evaluatePC', query: { id: this.formId, result: JSON.stringify(res.data.resultStr) }})
         } else if (res.code === 200 && window.innerWidth <= 840) {
           this.$router.push({ path: '/evaluatePhone', query: { id: this.formId, result: JSON.stringify(res.data.resultStr) }})
@@ -153,7 +153,7 @@ export default {
         //   // window.location.href = 'http://civetinterface.foxconn.com/Open/oauth/?to_code=' + this.formId
         //   window.location.href ='http://civetinterface.foxconn.com/Open/oauth/?appid=GSZDIv6rmA8d2LujhLa30g2&redirect_uri=http%3a%2f%2f43.139.110.41%3a81%2f%23%2fbuild%3fid%3d' + this.formId + '&scope=snsapi_userinfo'
         // }
-        console.log(res)
+        // console.log(res)
         this.jobNo = res.civetno
         this.jsonData.area = res.area
         this.jsonData.bg = res.bg
@@ -168,7 +168,7 @@ export default {
         this.jsonData.unit = res.unit
         this.jsonData.realname = res.realname
         this.jsonData.source = '相信'
-        // this.viewCount()
+        this.viewCount()
       })
     },
     viewCount() {
@@ -178,7 +178,7 @@ export default {
       formApi.viewCount(this.countvo).then(res => {
         this.submitAddress = res.data.submitAddress
         this.submitID = res.data.submitID
-        this.jsonData['createBy'] = es.data.submitID
+        this.jsonData['createBy'] = res.data.submitID
         this.jsonData['submitAddress'] = res.data.submitAddress
         console.log(this.submitID)
         console.log('thisview，工号' + this.jobNo)

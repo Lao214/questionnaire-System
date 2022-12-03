@@ -72,5 +72,4 @@ export default {
   border-color: lightseagreen !important;
   box-shadow: none !important;
 }
-
 </style>
