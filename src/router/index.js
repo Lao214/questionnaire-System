@@ -39,6 +39,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/evaluatePhone',
+    component: () => import('@/views/evaluate/evaluatePhone'),
+    hidden: true
+  },
+  {
+    path: '/evaluateNoResult',
+    component: () => import('@/views/evaluate/evaluateNoResult'),
+    hidden: true
+  },
+  {
     path: '/kndex',
     component: () => import('@/views/Kdesign/k'),
     hidden: true

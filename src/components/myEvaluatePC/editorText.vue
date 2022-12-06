@@ -64,23 +64,25 @@ export default {
   watch: {
     height(newDF, oldDF) {
       this.styleList = 'height: ' + newDF + 'px;border: 1px lightseagreen solid;'
-      console.log(newDF)
+      // console.log(newDF)
     },
     gird(newDF, oldDF) {
       this.girdHere = newDF
-      console.log(newDF)
+      // console.log(newDF)
     },
     componentValue(newDF, oldDF) {
+      // console.log('old' + oldDF)
+      // console.log('new' + newDF)
       this.componentValueHere = newDF
     },
     html(newDF, oldDF) {
       this.componentValueHere = newDF
     }
   },
-  mounted() {
-    setTimeout(() => {
+  created() {
+    // setTimeout(() => {
       this.html = this.componentValueHere
-    }, 500)
+    // }, 500)
   },
   beforeDestroy() {
     const editor = this.editor

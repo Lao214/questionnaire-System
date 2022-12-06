@@ -215,17 +215,19 @@ export default {
         }
       })
     },
-    wangEditorChange(html, index) {
-      this.thisValue = html
-      this.itemUI[index].componentValue = html
-      console.log(this.itemUI)
-    },
     getUiKey() {
       uiApi.getUiKey(this.$route.query.id).then(res => {
         this.uiKey = res.data.ui.id
+        // console.log(res.data.ui.components)
         this.itemUI = JSON.parse(res.data.ui.components)
+        // console.log(this.itemUI)
         console.log(this.uiKey)
       })
+    },
+    wangEditorChange(html, index) {
+      this.thisValue = html
+      this.itemUI[index].componentValue = html
+      // console.log(this.itemUI)
     },
     saveUI() {
       this.formvo['data'] = JSON.stringify(this.itemUI)

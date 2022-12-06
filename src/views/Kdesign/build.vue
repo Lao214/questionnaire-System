@@ -9,7 +9,6 @@
     <div style="padding:0px 0px 2rem 0 ;">
       <el-button class="el-button--goon" style="display:block;margin:0 auto;" @click="handleGetData">提 交</el-button>
     </div>
-    <p>&nbsp;</p> 
   </div>
 </template>
 
@@ -19,7 +18,7 @@ import formDataApi from '@/api/formData/formData'
 import believeApi from '@/api/believe/believe'
 import weditor from '../../components/editor/indextor.vue'
 import radioGroup from '../../components/MyBuild/radioGroup.vue'
-import slider from '../../components/MyEditor/slider.vue'
+import slider from '../../components/MyBuild/slider.vue'
 import imageShow from '../../components/MyEditor/imageShow.vue'
 import divider from '../../components/MyEditor/divider.vue'
 import myInput from '../../components/MyEditor/myInput.vue'
@@ -131,11 +130,12 @@ export default {
           type: 'success',
           message: '提交成功!'
         })
-        if (res.code === 200 && window.innerWidth > 840) {
-          // console.log(res.data.resultStr)
+        if (res.data.dataMap && res.code === 200 && window.innerWidth > 840) {
           this.$router.push({ path: '/evaluatePC', query: { id: this.formId, result: JSON.stringify(res.data.resultStr) }})
-        } else if (res.code === 200 && window.innerWidth <= 840) {
+        } else if (res.data.dataMap && res.code === 200 && window.innerWidth <= 840) {
           this.$router.push({ path: '/evaluatePhone', query: { id: this.formId, result: JSON.stringify(res.data.resultStr) }})
+        } if (!res.data.dataMap) {
+          this.$router.push({ path: '/evaluateNoResult', query: { id: this.formId }})
         }
       })
     },

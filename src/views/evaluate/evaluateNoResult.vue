@@ -1,0 +1,90 @@
+<template>
+  <div style="padding:10px;display: flex;justify-content: center;">
+	<div class="loader" />
+    <p style="position: absolute; top: 40%;font-weight: 700;font-size: 2rem;">提交成功!</p>
+	</div>
+		<!-- <div class="font-36">收藏成功</div> -->
+		<!-- <span slot="footer" class="dialog-footer"> -->
+			<!-- <el-button type="primary" @click="visible = false">确定</el-button> -->
+		<!-- </span> -->
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+    }
+  },
+  methods: {
+  }
+}
+</script>
+<style scoped>
+/* // 圆圈 */
+.loader {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+  top: 30%;
+	border-radius: 50%;
+	border: 4px solid rgba(165, 220, 134, 0.2);
+	border-left-color: #A5DC86;
+	animation: animation_collect 1s linear 1 both;
+}
+
+/* // 圆圈动画代码 */
+@keyframes animation_collect {
+  0% {
+	  transform: rotate(270deg);
+	  border-left-color: #A5DC86;
+  }
+  25%  {
+	  border-left-color: #A5DC86;
+  }
+  50%  {
+	  border-left-color: #A5DC86;
+  }
+  75%  {
+  	  border-left-color: #A5DC86;
+  }
+  100% {
+	  border-left-color: rgba(165, 220, 134, 0.2);
+	  transform: rotate(0deg);
+  }
+}
+
+/* //对号 */
+.loader::before {
+	position: absolute;
+	content: '';
+	top: 50%;
+	left: 15px;
+	border: 4px solid #A5DC86;
+	border-left-width: 0;
+	border-bottom-width: 0;
+	transform: scaleX(-1) rotate(135deg);
+	transform-origin: left top;
+	/* // 设置动画延迟1s执行，先执行外层圆圈动画 结束后执行该动画 */
+	animation: animation_true 0.5s 1s linear 1 both;
+	/* // 外层执行动画执行时，里面不显示，但是不能使用display:none,所以用opacity代替 */
+	opacity: 0;
+}
+
+@keyframes animation_true {
+  0% {
+	  opacity: 0;
+	  width: 0px;
+	  height: 0px;
+  }
+  33%  {
+	  opacity: 1;
+	  width: 20px;
+	  height: 0px;
+  }
+  100% {
+	 opacity: 1;
+	 width: 20px;
+	 height: 40px;
+  }
+}
+</style>

@@ -2,7 +2,7 @@
   <div>
     <el-col :span="girdHere">
       <div class="zujian" :style="styleList">
-        <div style="border: 1px solid #ccc; margin-top: 10px">
+        <div style="border: 1px solid rgba(0, 0, 0, 0); margin-top: 10px">
           <div v-html="html" />
         </div>
       </div>
